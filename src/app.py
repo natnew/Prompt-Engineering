@@ -1,7 +1,7 @@
 # src/app.py
 import streamlit as st
 from prompt_engineering import apply_technique
-from models import get_model_response, MODELS
+from models import get_model_response_stream, MODELS
 from utils import load_techniques, load_prompts
 
 # Load data
@@ -43,9 +43,17 @@ st.write(transformed_prompt)
 st.subheader("Transformation Explanation")
 st.write(transformation_explanation)
 
-# Get model response with spinner
+# Get model response with streaming and spinner
 if st.button("Generate Response"):
+    response_container = st.empty()  # Create a placeholder for the response
+    full_response = ""
+
     with st.spinner("Generating response..."):
-        response = get_model_response(selected_model_engine, transformed_prompt)
-    st.subheader("Model Response")
-    st.write(response)
+        response = get_model_response_stream(selected_model_engine, transformed_prompt)
+        for chunk in response:
+            content = chunk.choices[0].delta.get('content', '') if 'choices' in chunk and chunk.choices[0].delta else ""
+            full_response += content
+            response_container.markdown(full_response)  # Update the placeholder with new content
+
+    st.subheader("Final Model Response")
+    st.write(full_response)
