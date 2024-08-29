@@ -1,0 +1,14 @@
+{
+    "Marketing": [
+        "Write an engaging product description.",
+        "Create a catchy slogan."
+    ],
+    "Customer Support": [
+        "Generate a polite response to a complaint.",
+        "Draft an apology letter."
+    ],
+    "Data Science": [
+        "Explain machine learning to a beginner.",
+        "Describe a data pipeline."
+    ]
+}
