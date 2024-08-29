@@ -1,8 +1,9 @@
 # src/models.py
 import openai
+import os
 
-# Configure your OpenAI API key
-openai.api_key = "your-openai-api-key"
+# Retrieve the OpenAI API key from environment variables
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Available models
 MODELS = {
@@ -21,4 +22,5 @@ def get_model_response(model, prompt):
         return response.choices[0].text.strip()
     except Exception as e:
         return f"Error fetching response: {e}"
+
 
