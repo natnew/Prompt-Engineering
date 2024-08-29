@@ -1,0 +1,20 @@
+{
+    "Zero-Shot Prompting": {
+        "description": "Zero-shot prompting involves asking a language model to perform a task without providing any examples or specific instructions beforehand. It’s effective for straightforward tasks."
+    },
+    "Few-Shot Prompting": {
+        "description": "Few-shot prompting provides a few examples to guide the model's understanding, enhancing accuracy for nuanced tasks."
+    },
+    "Chain-of-Thought (CoT) Prompting": {
+        "description": "Chain-of-Thought (CoT) prompting instructs a model to reason step-by-step, improving performance on complex tasks."
+    },
+    "Meta-Prompting": {
+        "description": "Meta-Prompting uses a prompt to create another prompt that better aligns with a task, enhancing specificity and accuracy."
+    },
+    "Self-Consistency Prompting": {
+        "description": "Consistency prompting ensures outputs are logically coherent across similar tasks, reducing variability."
+    },
+    "Tree-of-Thought (ToT) Prompting": {
+        "description": "Tree-of-Thought (ToT) prompting guides the model through multiple thought paths, promoting creative thinking."
+    }
+}
