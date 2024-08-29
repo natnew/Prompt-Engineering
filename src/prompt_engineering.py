@@ -9,8 +9,13 @@ def apply_technique(prompt, technique):
         return examples + prompt
     elif technique == "Chain-of-Thought":
         return "Let's think step-by-step.\n" + prompt
-    elif technique == "Instruction Tuning":
-        return "Please follow the instructions carefully: " + prompt
+    elif technique == "Meta-Prompting":
+        return "Create a new prompt based on the task requirements: " + prompt
+    elif technique == "Self-Consistency":
+        return "Ensure the response is consistent and coherent: " + prompt
+    elif technique == "Tree-of-Thought":
+        return "Consider multiple approaches:\n1. ...\n2. ...\n\n" + prompt
     else:
         return prompt
+
 
