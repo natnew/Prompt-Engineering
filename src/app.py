@@ -35,12 +35,17 @@ st.subheader("Technique Description")
 st.write(technique_description)
 
 # Apply technique to the prompt
-transformed_prompt = apply_technique(user_prompt, selected_technique)
+transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
+
 st.subheader("Transformed Prompt")
 st.write(transformed_prompt)
 
-# Get model response
+st.subheader("Transformation Explanation")
+st.write(transformation_explanation)
+
+# Get model response with spinner
 if st.button("Generate Response"):
-    response = get_model_response(selected_model_engine, transformed_prompt)
+    with st.spinner("Generating response..."):
+        response = get_model_response(selected_model_engine, transformed_prompt)
     st.subheader("Model Response")
     st.write(response)
