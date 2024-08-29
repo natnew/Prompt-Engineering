@@ -2,12 +2,11 @@
 import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
-from utils import load_techniques, load_prompts, load_guidelines
+from utils import load_techniques, load_prompts
 
 # Load data
 techniques = load_techniques()
 prompts_data = load_prompts()
-guidelines = load_guidelines()
 
 # Streamlit sidebar for user selection
 st.sidebar.title("Prompt Engineering Tool")
@@ -26,9 +25,6 @@ selected_prompt = st.sidebar.selectbox("Select Prompt", prompts_data[selected_de
 selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.keys()))
 technique_description = techniques[selected_technique]["description"]
 
-# Ethical guideline audio
-guideline_audio = guidelines[selected_prompt]
-
 # Main content
 st.title("Interactive Prompt Engineering")
 
@@ -37,10 +33,6 @@ user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
 
 st.subheader("Technique Description")
 st.write(technique_description)
-
-# Display ethical guidelines audio
-st.subheader("Ethical Guideline")
-st.audio(guideline_audio, format='audio/mp3')
 
 # Apply technique to the prompt
 transformed_prompt = apply_technique(user_prompt, selected_technique)
