@@ -1,14 +1,35 @@
 {
+    "Customer Services & Fulfillment": [
+        "Draft a response to a customer inquiry about the availability of a recently published academic journal.",
+        "Provide guidance to a customer on how to access their digital subscription to our academic books."
+    ],
+    "Editorial/Publishing": [
+        "Edit a draft chapter of an academic book to ensure it meets our publishing standards.",
+        "Summarize the key findings of a submitted research paper for the journal's editor review."
+    ],
     "Marketing": [
-        "Write an engaging product description.",
-        "Create a catchy slogan."
+        "Write a compelling description for an upcoming release of a new academic textbook on neuroscience.",
+        "Develop a social media campaign strategy to promote the latest issue of our academic journal."
     ],
-    "Customer Support": [
-        "Generate a polite response to a complaint.",
-        "Draft an apology letter."
+    "Operations/Other": [
+        "Outline the steps to manage and optimize the production workflow for a new journal issue.",
+        "Create a process for managing author submissions and peer reviews for academic publications."
     ],
-    "Data Science": [
-        "Explain machine learning to a beginner.",
-        "Describe a data pipeline."
+    "Branding & Design": [
+        "Design a cover concept for a new academic book on climate change policy.",
+        "Create a style guide for the layout and formatting of academic journals to ensure consistency."
+    ],
+    "Corporate Communications": [
+        "Draft a press release announcing the publication of a groundbreaking research paper in one of our journals.",
+        "Write an internal memo to staff about new policies regarding open access publishing."
+    ],
+    "Production": [
+        "Develop a production schedule for a new academic book series focused on modern physics.",
+        "Identify potential bottlenecks in the production of academic journals and propose solutions."
+    ],
+    "Publishing Process Management": [
+        "Outline the end-to-end process for publishing a new academic journal from manuscript submission to final distribution.",
+        "Create a timeline for the peer review and editing process for an upcoming special issue."
     ]
 }
+
