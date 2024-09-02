@@ -45,4 +45,32 @@ def get_model_response(model, prompt):
             )
             generated_text = response.choices[0].text.strip()
 
-        # If the response doesn't end with a complete sentence, continue
+        # If the response doesn't end with a complete sentence, continue generation
+        while not is_complete_sentence(generated_text):
+            if model in ["gpt-3.5-turbo", "gpt-4"]:
+                continuation = openai.ChatCompletion.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": generated_text}
+                    ],
+                    max_tokens=50,
+                    temperature=0.7,
+                    stop=[".\n"]
+                )
+                generated_text += " " + continuation['choices'][0]['message']['content'].strip()
+            else:
+                continuation = openai.Completion.create(
+                    model=model,
+                    prompt=generated_text,
+                    max_tokens=50,
+                    temperature=0.7,
+                    stop=[".\n"]
+                )
+                generated_text += " " + continuation.choices[0].text.strip()
+
+        return generated_text
+
+    except Exception as e:
+        # Correctly handle exceptions here
+        return f"Error fetching response: {e}"
