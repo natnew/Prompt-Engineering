@@ -86,6 +86,10 @@ selected_prompt = st.sidebar.selectbox("Select Prompt", prompts_data[selected_de
 selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.keys()))
 technique_description = techniques[selected_technique]["description"]
 
+# Bottom of sidebar - Blog link and clear button
+st.sidebar.markdown("---")
+st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://example.com/blog).**")
+
 # Main content
 st.title("Interactive Prompt Engineering")
 
