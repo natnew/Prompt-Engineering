@@ -7,8 +7,26 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Available models
 MODELS = {
-    "GPT-4": "gpt-4",
-    "GPT-3.5": "gpt-3.5-turbo",
+    "GPT-4o": {
+        "engine": "gpt-4o",
+        "description": "Our high-intelligence flagship model for complex, multi-step tasks."
+    },
+    "GPT-4o mini": {
+        "engine": "gpt-4o-mini",
+        "description": "Our affordable and intelligent small model for fast, lightweight tasks."
+    },
+    "GPT-4 Turbo": {
+        "engine": "gpt-4-turbo",
+        "description": "The previous set of high-intelligence models."
+    },
+    "GPT-4": {
+        "engine": "gpt-4",
+        "description": "The previous set of high-intelligence models."
+    },
+    "GPT-3.5": {
+        "engine": "gpt-3.5-turbo",
+        "description": "A capable model for general-purpose tasks."
+    }
 }
 
 def is_complete_sentence(text):
