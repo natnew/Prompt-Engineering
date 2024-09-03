@@ -86,6 +86,20 @@ selected_prompt = st.sidebar.selectbox("Select Prompt", prompts_data[selected_de
 selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.keys()))
 technique_description = techniques[selected_technique]["description"]
 
+# Output format selection
+output_format = st.sidebar.selectbox(
+    "Select Output Format",
+    ["Text", "JSON", "Bullet Points"],
+    help="Choose the format in which you want the output to be displayed."
+)
+
+# Tone selection
+tone = st.sidebar.selectbox(
+    "Select Tone",
+    ["Formal", "Casual", "Technical"],
+    help="Select the tone for the output text."
+)
+
 # Bottom of sidebar - Blog link and clear button
 st.sidebar.markdown("---")
 st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://example.com/blog).**")
@@ -107,11 +121,14 @@ user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
 st.subheader("Technique Description")
 st.info(technique_description)
 
-# Apply technique to the prompt
+# Apply technique to the prompt and consider output format and tone
 transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
 
+# Adjust the transformed prompt based on output format and tone
+formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format} format with a {tone} tone."
+
 st.subheader("Transformed Prompt")
-st.info(transformed_prompt)
+st.info(formatted_prompt)
 
 st.subheader("Transformation Explanation")
 st.info(transformation_explanation)
