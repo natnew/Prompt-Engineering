@@ -3,6 +3,8 @@ import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
+import os
+
 
 # Load data
 techniques = load_techniques()
