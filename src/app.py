@@ -96,7 +96,7 @@ st.title("Interactive Prompt Engineering")
 # Add dropdown section using st.expander with updated wording
 with st.expander("When to prompt engineer"):
     st.write("""
-    This guide highlights success criteria that can be influenced through prompt engineering. 
+    This guide highlights success the criteria that can be influenced through prompt engineering. 
     However, not all success criteria or failed evaluations are best addressed by prompt engineering. 
     For example, issues such as latency and cost may sometimes be more effectively improved by selecting a different model.
     """)
