@@ -93,6 +93,14 @@ st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://e
 # Main content
 st.title("Interactive Prompt Engineering")
 
+# Add dropdown section using st.expander with updated wording
+with st.expander("When to prompt engineer"):
+    st.write("""
+    This guide highlights success criteria that can be influenced through prompt engineering. 
+    However, not all success criteria or failed evaluations are best addressed by prompt engineering. 
+    For example, issues such as latency and cost may sometimes be more effectively improved by selecting a different model.
+    """)
+
 st.subheader("Selected Prompt")
 user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
 
