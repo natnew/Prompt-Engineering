@@ -97,16 +97,16 @@ st.subheader("Selected Prompt")
 user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
 
 st.subheader("Technique Description")
-st.write(technique_description)
+st.info(technique_description)
 
 # Apply technique to the prompt
 transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
 
 st.subheader("Transformed Prompt")
-st.write(transformed_prompt)
+st.info(transformed_prompt)
 
 st.subheader("Transformation Explanation")
-st.write(transformation_explanation)
+st.info(transformation_explanation)
 
 # Get model response without streaming
 if st.button("Generate Response"):
