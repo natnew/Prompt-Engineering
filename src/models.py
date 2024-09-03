@@ -7,38 +7,17 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Available models
 MODELS = {
-    "GPT-4o": {
-        "engine": "gpt-4o",
-        "description": "Our high-intelligence flagship model for complex, multi-step tasks."
-    },
-    "GPT-4o mini": {
-        "engine": "gpt-4o-mini",
-        "description": "Our affordable and intelligent small model for fast, lightweight tasks."
-    },
-    "GPT-4 Turbo": {
-        "engine": "gpt-4-turbo",
-        "description": "The previous set of high-intelligence models."
-    },
-    "GPT-4": {
-        "engine": "gpt-4",
-        "description": "The previous set of high-intelligence models."
-    },
-    "GPT-3.5": {
-        "engine": "gpt-3.5-turbo",
-        "description": "A capable model for general-purpose tasks."
-    }
+    "GPT-4o": "gpt-4o",
+    "GPT-4o mini": "gpt-4o-mini",
+    "GPT-4 Turbo": "gpt-4-turbo",
+    "GPT-4": "gpt-4",
+    "GPT-3.5": "gpt-3.5-turbo"
 }
 
-def is_complete_sentence(text):
-    """Check if the text ends with a complete sentence."""
-    return text.strip().endswith(('.', '!', '?'))
-
-def get_model_response(model, prompt):
-    """Fetches response from the selected model, ensuring it finishes sentences."""
+def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150):
+    """Fetches response from the selected model, ensuring it is correctly formatted."""
     try:
-        max_tokens = 150  # Initial token limit
-
-        if model in ["gpt-3.5-turbo", "gpt-4"]:
+        if model in ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o", "gpt-4o-mini"]:
             # Use chat-based model completion
             response = openai.ChatCompletion.create(
                 model=model,
@@ -47,48 +26,26 @@ def get_model_response(model, prompt):
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=max_tokens,
-                temperature=0.7,
-                stop=[".\n"]  # Encourage stopping after a full stop followed by a new line
+                temperature=temperature,
+                top_p=top_p,
+                n=1,
+                stop=None
             )
             generated_text = response['choices'][0]['message']['content'].strip()
-        
         else:
             # Use completion-based model
             response = openai.Completion.create(
                 model=model,
                 prompt=prompt,
                 max_tokens=max_tokens,
-                temperature=0.7,
-                stop=[".\n"]  # Encourage stopping after a full stop followed by a new line
+                temperature=temperature,
+                top_p=top_p,
+                n=1,
+                stop=None
             )
-            generated_text = response.choices[0].text.strip()
-
-        # If the response doesn't end with a complete sentence, continue generation
-        while not is_complete_sentence(generated_text):
-            if model in ["gpt-3.5-turbo", "gpt-4"]:
-                continuation = openai.ChatCompletion.create(
-                    model=model,
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": generated_text}
-                    ],
-                    max_tokens=50,
-                    temperature=0.7,
-                    stop=[".\n"]
-                )
-                generated_text += " " + continuation['choices'][0]['message']['content'].strip()
-            else:
-                continuation = openai.Completion.create(
-                    model=model,
-                    prompt=generated_text,
-                    max_tokens=50,
-                    temperature=0.7,
-                    stop=[".\n"]
-                )
-                generated_text += " " + continuation.choices[0].text.strip()
+            generated_text = response['choices'][0]['text'].strip()
 
         return generated_text
-
+    
     except Exception as e:
-        # Correctly handle exceptions here
-        return f"Error fetching response: {e}"
+        return f"An error occurred: {str(e)}"
