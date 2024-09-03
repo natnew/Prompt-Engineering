@@ -9,7 +9,7 @@ techniques = load_techniques()
 prompts_data = load_prompts()
 
 # Streamlit sidebar for user selection
-st.sidebar.title("Prompt Engineering Tool")
+st.sidebar.title("📊 Prompt Engineering Tool")
 
 # Model selection
 selected_model = st.sidebar.selectbox("Select Model", list(MODELS.keys()))
