@@ -130,8 +130,18 @@ formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format
 st.subheader("Transformed Prompt")
 st.info(formatted_prompt)
 
+# Create a detailed transformation explanation
+detailed_explanation = f"""
+The following transformation was applied using the **{selected_technique}** technique with the specified parameters:
+- **Output Format**: {output_format}
+- **Tone**: {tone}
+- **Temperature**: {temperature} - This controls the randomness of the output. A lower value means more deterministic responses, while a higher value introduces more creativity.
+- **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
+- **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
+"""
+
 st.subheader("Transformation Explanation")
-st.info(transformation_explanation)
+st.info(detailed_explanation)
 
 # Get model response without streaming
 if st.button("Generate Response"):
