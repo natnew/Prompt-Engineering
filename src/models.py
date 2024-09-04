@@ -24,7 +24,7 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150
         generated_text = ""
         continuation_prompt = prompt
 
-        while not is_complete_sentence(generated_text):
+        while True:
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=[
@@ -41,11 +41,19 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150
             generated_text += chunk
 
             # If the generated text ends with a complete sentence or reaches the max token limit, break the loop
-            if is_complete_sentence(generated_text) or len(generated_text.split()) >= max_tokens:
+            if is_complete_sentence(generated_text):
                 break
 
             # Update the continuation prompt to continue from where it left off
             continuation_prompt = generated_text
+
+            # Break if we are not getting more tokens, to avoid infinite loop
+            if len(chunk) < max_tokens:
+                break
+
+        # Ensure the last part ends with a full stop
+        if not generated_text.endswith(('.', '!', '?')):
+            generated_text = generated_text.rstrip() + '.'
 
         return generated_text
 
