@@ -153,6 +153,9 @@ if st.button("Generate Response"):
             top_p=top_p,
             max_tokens=max_tokens
         )
-    st.subheader("Model Response")
-    st.write(response)
+    if response:
+        st.subheader("Model Response")
+        st.write(response)
+    else:
+        st.error("The response could not be generated due to rate limits. Please try again or choose a different model.")
 
