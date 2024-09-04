@@ -20,7 +20,7 @@ def is_complete_sentence(text):
     """Check if the text ends with a complete sentence."""
     return text.strip().endswith(('.', '!', '?'))
 
-def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=100):
+def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150):
     """Fetches response from the selected model, ensuring it is complete."""
     try:
         generated_text = ""
@@ -39,26 +39,23 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=100
                     temperature=temperature,
                     top_p=top_p,
                     n=1,
-                    stop=["\n\n"]  # Encourage stopping at a logical paragraph break
+                    stop=None  # Remove the stop sequence to let the model generate more naturally
                 )
                 chunk = response['choices'][0]['message']['content'].strip()
 
-                # Check if the new chunk is just a repetition
-                if chunk in generated_text:
-                    st.warning("The model seems to be repeating itself. Adjusting strategy to avoid redundancy.")
-                    break
+                # Append only non-duplicate chunks to avoid repetition
+                if chunk and chunk not in generated_text:
+                    generated_text += " " + chunk
 
-                generated_text += chunk
-
-                # If the generated text ends with a complete sentence or reaches the max token limit, break the loop
-                if is_complete_sentence(generated_text):
+                # Check for completeness or if the text length is close to the max token limit
+                if is_complete_sentence(generated_text) or len(generated_text.split()) >= max_tokens:
                     break
 
                 # Update the continuation prompt to continue from where it left off
                 continuation_prompt = generated_text
 
-                # Break if we are not getting more tokens, to avoid infinite loop
-                if len(chunk) < max_tokens:
+                # If chunk is empty or short, avoid looping indefinitely
+                if len(chunk) < max_tokens / 2:  # Adjust this based on expected output length
                     break
 
             except openai.error.RateLimitError as e:
@@ -76,7 +73,7 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=100
         if not generated_text.endswith(('.', '!', '?')):
             generated_text = generated_text.rstrip() + '.'
 
-        return generated_text
+        return generated_text.strip()
 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
