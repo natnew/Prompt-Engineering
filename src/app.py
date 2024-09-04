@@ -162,7 +162,22 @@ formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format
 st.subheader("Transformed Prompt")
 st.info(formatted_prompt)
 
-# Create a detailed transformation explanation
+
+# Apply advanced settings
+if role != "No Role":
+    formatted_prompt += f"\n\nRole: {role}."
+
+# Ensure the Thinking Step is reflected with a header
+if use_thinking_step == 1:
+    formatted_prompt += "\n\n### Thinking Step\n<thinking>Explain step-by-step the reasoning behind the output.</thinking>"
+
+if avoid_hallucinations == 1:
+    formatted_prompt += "\n\nIf you don't know, state 'I don't know.' Use <Reference></Reference> to pull the reference you used to produce an output."
+
+st.subheader("Transformed Prompt")
+st.info(formatted_prompt)
+
+# Detailed transformation explanation
 detailed_explanation = f"""
 The following transformation was applied using the **{selected_technique}** technique with the specified parameters:
 - **Output Format**: {output_format}
@@ -171,9 +186,10 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
 - **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
 - **Role**: {role} - Simulates the perspective of a specific role.
-- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A Thinking Step header is included to explicitly show the model's thought process.
-- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing.
+- **Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A 'Thinking Step' header is included to explicitly show the model's thought process.
+- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references using <Reference></Reference> tags.
 """
+
 
 st.subheader("Transformation Explanation")
 st.info(detailed_explanation)
