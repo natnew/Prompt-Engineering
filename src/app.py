@@ -159,3 +159,4 @@ if st.button("Generate Response"):
     else:
         st.error("The response could not be generated due to rate limits. Please try again or choose a different model.")
 
+
