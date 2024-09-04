@@ -100,6 +100,38 @@ tone = st.sidebar.selectbox(
     help="Select the tone for the output text."
 )
 
+# Advanced Settings section with sliders and selection boxes
+with st.sidebar.expander("Advanced Settings"):
+    # Assigning Roles
+    role = st.selectbox(
+        "Assign Role",
+        ["No Role", "Technical Specialist", "Editor", "Marketing Manager", "Technical Trainer", "Product Owner"],
+        help="Select a role to simulate a specific perspective in the response."
+    )
+
+    # Thinking Step - Slider for demonstration purposes (1: Use, 0: Do not use)
+    use_thinking_step = st.slider(
+        "Include Thinking Step",
+        min_value=0,
+        max_value=1,
+        value=0,
+        step=1,
+        format="%d",
+        help="Enable (1) to use <thinking></thinking> tags to explicitly show the model's thought process."
+    )
+
+    # Avoid Hallucinations - Slider for demonstration purposes (1: Avoid, 0: Do not avoid)
+    avoid_hallucinations = st.slider(
+        "Avoid Hallucinations",
+        min_value=0,
+        max_value=1,
+        value=0,
+        step=1,
+        format="%d",
+        help="Enable (1) to prompt the model to state 'I don't know' if it lacks sufficient information or ask for evidence using <Reference></Reference> tags."
+    )
+
+
 # Bottom of sidebar - Blog link and clear button
 st.sidebar.markdown("---")
 st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://example.com/blog).**")
@@ -138,6 +170,9 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Temperature**: {temperature} - This controls the randomness of the output. A lower value means more deterministic responses, while a higher value introduces more creativity.
 - **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
 - **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
+- **Role**: {role} - Simulates the perspective of a specific role.
+- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - Displays the model's thought process using <thinking></thinking> tags.
+- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references using <Reference></Reference> tags.
 """
 
 st.subheader("Transformation Explanation")
