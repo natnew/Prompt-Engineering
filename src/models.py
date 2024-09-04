@@ -20,7 +20,13 @@ def is_complete_sentence(text):
     """Check if the text ends with a complete sentence."""
     return text.strip().endswith(('.', '!', '?'))
 
-def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150):
+def ensure_complete_ending(text):
+    """Ensure the text has a complete ending, add a conclusion if missing."""
+    if not text.strip().endswith(('.', '!', '?')):
+        text = text.rstrip() + ' Thank you for your understanding and support. Sincerely, [Your Company Name] Customer Support Team.'
+    return text
+
+def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200):
     """Fetches response from the selected model, ensuring it is complete."""
     try:
         generated_text = ""
@@ -69,9 +75,8 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150
             st.error(f"Rate limit reached for {model}. Please try again later or select another model.")
             return None  # No valid response, just return
 
-        # Ensure the last part ends with a full stop
-        if not generated_text.endswith(('.', '!', '?')):
-            generated_text = generated_text.rstrip() + '.'
+        # Ensure the last part ends with a full stop or add a closing statement
+        generated_text = ensure_complete_ending(generated_text)
 
         return generated_text.strip()
 
