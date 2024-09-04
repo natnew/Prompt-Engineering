@@ -155,7 +155,7 @@ with st.expander("Additional Resources"):
     
     **Explore the following resources to enhance your understanding:**
     
-    - [Glossary](https://example.com/glossary): Understand the key terms and concepts used in AI and prompt engineering.
+    - [Glossary](https://natnew.github.io/Awesome-Prompt-Engineering/AI_Glossary.html): Understand the key terms and concepts used in AI and prompt engineering.
     - [Best Practices](https://example.com/best-practices): Learn the best practices for designing and using prompts effectively.
     - [Use Cases](https://example.com/use-cases): Discover various use cases where prompt engineering can make a significant impact.
     - [Ethical Guidelines](https://example.com/ethical-guidelines): Understand the ethical considerations and guidelines for using AI responsibly.
