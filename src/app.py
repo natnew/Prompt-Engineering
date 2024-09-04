@@ -117,7 +117,7 @@ with st.sidebar.expander("Advanced Settings"):
         value=0,
         step=1,
         format="%d",
-        help="Enable (1) to use 'Thinking Step' header to explicitly show the model's thought process."
+        help="Enable (1) to use 'Thinking Step' to explicitly show the model's thought process."
     )
 
     # Avoid Hallucinations - Slider for demonstration purposes (1: Avoid, 0: Do not avoid)
@@ -128,7 +128,7 @@ with st.sidebar.expander("Advanced Settings"):
         value=0,
         step=1,
         format="%d",
-        help="Enable (1) to prompt the model to state 'I don't know' if it lacks sufficient information or ask for evidence using <Reference></Reference> tags."
+        help="Enable (1) to prompt the model to state 'I don't know' if it lacks sufficient information."
     )
 
 
@@ -171,8 +171,8 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
 - **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
 - **Role**: {role} - Simulates the perspective of a specific role.
-- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - Displays the model's thought process using <thinking></thinking> tags.
-- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references using <Reference></Reference> tags.
+- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - Displays the model's thought process using 'Thinking Step' header.
+- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing.
 """
 
 st.subheader("Transformation Explanation")
