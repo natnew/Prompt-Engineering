@@ -117,7 +117,7 @@ with st.sidebar.expander("Advanced Settings"):
         value=0,
         step=1,
         format="%d",
-        help="Enable (1) to use 'Thinking Step' to explicitly show the model's thought process."
+        help="Enable (1) to include a 'Thinking Step' header to explicitly show the model's thought process."
     )
 
     # Avoid Hallucinations - Slider for demonstration purposes (1: Avoid, 0: Do not avoid)
