@@ -14,38 +14,40 @@ MODELS = {
     "GPT-3.5": "gpt-3.5-turbo"
 }
 
+def is_complete_sentence(text):
+    """Check if the text ends with a complete sentence."""
+    return text.strip().endswith(('.', '!', '?'))
+
 def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=150):
-    """Fetches response from the selected model, ensuring it is correctly formatted."""
+    """Fetches response from the selected model, ensuring it is complete."""
     try:
-        if model in ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o", "gpt-4o-mini"]:
-            # Use chat-based model completion
+        generated_text = ""
+        continuation_prompt = prompt
+
+        while not is_complete_sentence(generated_text):
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": continuation_prompt}
                 ],
                 max_tokens=max_tokens,
                 temperature=temperature,
                 top_p=top_p,
                 n=1,
-                stop=None
+                stop=None  # Optionally add stop sequences like ['\n\n'] or ['.', '!', '?']
             )
-            generated_text = response['choices'][0]['message']['content'].strip()
-        else:
-            # Use completion-based model
-            response = openai.Completion.create(
-                model=model,
-                prompt=prompt,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                top_p=top_p,
-                n=1,
-                stop=None
-            )
-            generated_text = response['choices'][0]['text'].strip()
+            chunk = response['choices'][0]['message']['content'].strip()
+            generated_text += chunk
+
+            # If the generated text ends with a complete sentence or reaches the max token limit, break the loop
+            if is_complete_sentence(generated_text) or len(generated_text.split()) >= max_tokens:
+                break
+
+            # Update the continuation prompt to continue from where it left off
+            continuation_prompt = generated_text
 
         return generated_text
-    
+
     except Exception as e:
         return f"An error occurred: {str(e)}"
