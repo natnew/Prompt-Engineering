@@ -147,6 +147,21 @@ with st.expander("When to prompt engineer"):
     For example, issues such as latency and cost may sometimes be more effectively improved by selecting a different model.
     """)
 
+# New dropdown with additional resources
+with st.expander("Additional Resources"):
+    st.markdown("""
+    ### Overview
+    This project is part of a larger body of work around a comprehensive Generative AI course, designed to provide in-depth knowledge and hands-on experience with AI models.
+    
+    **Explore the following resources to enhance your understanding:**
+    
+    - [Glossary](https://example.com/glossary): Understand the key terms and concepts used in AI and prompt engineering.
+    - [Best Practices](https://example.com/best-practices): Learn the best practices for designing and using prompts effectively.
+    - [Use Cases](https://example.com/use-cases): Discover various use cases where prompt engineering can make a significant impact.
+    - [Ethical Guidelines](https://example.com/ethical-guidelines): Understand the ethical considerations and guidelines for using AI responsibly.
+    """, unsafe_allow_html=True)
+
+
 st.subheader("Selected Prompt")
 user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
 
