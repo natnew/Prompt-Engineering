@@ -157,6 +157,7 @@ if st.button("Generate Response"):
         st.subheader("Model Response")
         st.write(response)
     else:
-        st.error("The response could not be generated due to rate limits. Please try again or choose a different model.")
+        st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
+
 
 
