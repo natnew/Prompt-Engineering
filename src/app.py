@@ -171,7 +171,7 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
 - **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
 - **Role**: {role} - Simulates the perspective of a specific role.
-- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - Displays the model's thought process using 'Thinking Step' header.
+- **Include Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A 'Thinking Step' header is included to explicitly show the model's thought process.
 - **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing.
 """
 
