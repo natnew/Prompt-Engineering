@@ -39,9 +39,15 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=100
                     temperature=temperature,
                     top_p=top_p,
                     n=1,
-                    stop=None  # Optionally add stop sequences like ['\n\n'] or ['.', '!', '?']
+                    stop=["\n\n"]  # Encourage stopping at a logical paragraph break
                 )
                 chunk = response['choices'][0]['message']['content'].strip()
+
+                # Check if the new chunk is just a repetition
+                if chunk in generated_text:
+                    st.warning("The model seems to be repeating itself. Adjusting strategy to avoid redundancy.")
+                    break
+
                 generated_text += chunk
 
                 # If the generated text ends with a complete sentence or reaches the max token limit, break the loop
