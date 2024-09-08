@@ -158,7 +158,7 @@ with st.expander("Additional Resources"):
     - [Glossary](https://natnew.github.io/Awesome-Prompt-Engineering/AI_Glossary.html): Understand the key terms and concepts used in AI and prompt engineering.
     - [Best Practices](https://generative-ai-hub.gitbook.io/awesomegenerativeai): Learn the best practices for designing and using prompts effectively.
     - [Use Cases](https://generative-ai-hub.gitbook.io/awesomegenerativeai): Discover various use cases where prompt engineering can make a significant impact.
-    - [Ethical Guidelines](https://generative-ai-hub.gitbook.io/awesomegenerativeai): Understand the ethical considerations and guidelines for using AI responsibly.
+    - [Ethical Guidelines](https://ethicsinai.streamlit.app/): Understand the ethical considerations and guidelines for using AI responsibly.
     """, unsafe_allow_html=True)
 
 
