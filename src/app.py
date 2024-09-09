@@ -209,7 +209,7 @@ The following transformation was applied using the **{selected_technique}** tech
 st.subheader("Transformation Explanation")
 st.info(detailed_explanation)
 
-# Get model response with complete sentence enforcement
+# Generate response and allow rating
 if st.button("Generate Response"):
     with st.spinner("Generating response..."):
         response = get_model_response(
@@ -222,8 +222,19 @@ if st.button("Generate Response"):
     if response:
         st.subheader("Model Response")
         st.write(response)
+
+        # Step 1: Add rating slider after generating the response
+        st.subheader("Rate the Response")
+        rating = st.slider("How helpful was this response?", min_value=1, max_value=5, value=3, step=1)
+
+        # Step 2: Submit button for rating
+        if st.button("Submit Rating"):
+            st.success(f"Thank you for rating the response {rating}/5!")
+
+            # Optional: Store rating or send to backend
+            # store_rating(user_id, rating, response)  # This can be implemented if you want to save the ratings
     else:
-        st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
+        st.error("The response could not be generated. Please try again or choose a different model.")
 
 
 
