@@ -162,8 +162,8 @@ with st.expander("Additional Resources"):
     """, unsafe_allow_html=True)
 
 
-st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
+##st.subheader("Selected Prompt")
+##user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 
 st.subheader("Technique Description")
 st.info(technique_description)
