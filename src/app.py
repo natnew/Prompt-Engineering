@@ -163,7 +163,7 @@ with st.expander("Additional Resources"):
 
 
 st.subheader("Selected Prompt")
-user_prompt = st.text_area("Edit your prompt below:", value=selected_prompt)
+user_prompt = st.text_area("See your prompt below:", value=selected_prompt)
 
 st.subheader("Technique Description")
 st.info(technique_description)
