@@ -142,7 +142,7 @@ st.title("Interactive Prompt Engineering")
 # Add dropdown section using st.expander with updated wording
 with st.expander("When to prompt engineer"):
     st.write("""
-    This guide highlights success the criteria that can be influenced through prompt engineering. 
+    This guide highlights the success criteria that can be influenced through prompt engineering. 
     However, not all success criteria or failed evaluations are best addressed by prompt engineering. 
     For example, issues such as latency and cost may sometimes be more effectively improved by selecting a different model.
     """)
@@ -173,9 +173,6 @@ transformed_prompt, transformation_explanation = apply_technique(user_prompt, se
 
 # Adjust the transformed prompt based on output format and tone
 formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format} format with a {tone} tone."
-
-st.subheader("Transformed Prompt")
-st.info(formatted_prompt)
 
 
 # Apply advanced settings
