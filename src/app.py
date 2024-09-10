@@ -199,7 +199,7 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
 - **Role**: {role} - Simulates the perspective of a specific role.
 - **Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A 'Thinking Step' header is included to explicitly show the model's thought process.
-- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references using <Reference></Reference> tags.
+- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references.
 """
 
 
