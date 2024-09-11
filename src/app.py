@@ -176,8 +176,8 @@ with st.expander("Additional Resources"):
     """, unsafe_allow_html=True)
 
 
-#st.subheader("Selected Prompt")
-#user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
+st.subheader("Selected Prompt")
+user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 
 st.subheader("Technique Description")
 st.info(technique_description)
@@ -220,9 +220,6 @@ The following transformation was applied using the **{selected_technique}** tech
 st.subheader("Transformation Explanation")
 st.info(detailed_explanation)
 
-st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
-
 
 # Get model response with complete sentence enforcement
 if st.button("Generate Response"):
@@ -239,6 +236,3 @@ if st.button("Generate Response"):
         st.write(response)
     else:
         st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
-
-
-
