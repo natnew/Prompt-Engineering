@@ -1,3 +1,4 @@
+# src/app.py
 import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
@@ -174,15 +175,19 @@ with st.expander("Additional Resources"):
     - [Ethical Guidelines](https://ethicsinai.streamlit.app/): Understand the ethical considerations and guidelines for using AI responsibly.
     """, unsafe_allow_html=True)
 
-# Selected Prompt (placed before usage)
+
 st.subheader("Selected Prompt")
 user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
+
+st.subheader("Technique Description")
+st.info(technique_description)
 
 # Apply technique to the prompt and consider output format and tone
 transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
 
 # Adjust the transformed prompt based on output format and tone
 formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format} format with a {tone} tone."
+
 
 # Apply advanced settings
 if role != "No Role":
@@ -211,12 +216,10 @@ The following transformation was applied using the **{selected_technique}** tech
 - **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references.
 """
 
+
 st.subheader("Transformation Explanation")
 st.info(detailed_explanation)
 
-# Display prompt section again at the bottom (already defined earlier)
-st.subheader("Selected Prompt")
-st.text_area("See/Type your prompt below:", value=user_prompt)  # Just displaying the already defined user_prompt
 
 # Get model response with complete sentence enforcement
 if st.button("Generate Response"):
