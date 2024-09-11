@@ -143,8 +143,7 @@ st.title("Interactive Prompt Engineering")
 with st.expander("When to prompt engineer"):
     st.write("""
     Prompt engineering is highly effective for controlling certain success criteria, but it’s not always the best solution for every issue. 
-    In some cases, challenges such as latency or cost might be more efficiently addressed by opting for a different model. Instead of relying on prompt engineering to fix everything, 
-    selecting the right model can sometimes offer quicker and more practical improvements.
+    Instead of relying on prompt engineering to fix everything, selecting the right model can sometimes offer quicker and more practical improvements.
 
     ### Best Practices
     These techniques range from broadly useful to more specific. Their impact depends on your use case:
