@@ -142,9 +142,9 @@ st.title("Interactive Prompt Engineering")
 # Add dropdown section using st.expander with updated wording
 with st.expander("When to prompt engineer"):
     st.write("""
-    This guide highlights the success criteria that can be influenced through prompt engineering. 
-    However, not all success criteria or failed evaluations are best addressed by prompt engineering. 
-    For example, issues such as latency and cost may sometimes be more effectively improved by selecting a different model.
+    Prompt engineering is highly effective for controlling certain success criteria, but it’s not always the best solution for every issue. 
+    In some cases, challenges such as latency or cost might be more efficiently addressed by opting for a different model. Instead of relying on prompt engineering to fix everything, 
+    selecting the right model can sometimes offer quicker and more practical improvements.
     """)
 
 # New dropdown with additional resources
