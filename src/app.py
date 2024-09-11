@@ -158,9 +158,6 @@ with st.expander("When to prompt engineer"):
     - **Chain complex prompts**: Break tasks into smaller steps to handle complexity.
     - **Long context tips**: Provide rich context, especially for lengthy tasks.
     
- # Create a visible gap
-    st.write("")
-    
     # Add the source
     st.write("""
     **Source:**
