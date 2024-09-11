@@ -145,6 +145,18 @@ with st.expander("When to prompt engineer"):
     Prompt engineering is highly effective for controlling certain success criteria, but it’s not always the best solution for every issue. 
     In some cases, challenges such as latency or cost might be more efficiently addressed by opting for a different model. Instead of relying on prompt engineering to fix everything, 
     selecting the right model can sometimes offer quicker and more practical improvements.
+
+    ### Best Practices
+    These techniques range from broadly useful to more specific. Follow them in order, but their impact depends on your use case:
+
+    - **Be clear and direct**: Use simple, direct prompts to reduce confusion.
+    - **Use examples (multishot)**: Provide multiple examples to improve response accuracy.
+    - **Let the model think (chain of thought)**: Guide the model step-by-step for complex reasoning.
+    - **Use XML tags**: Structure prompts with tags for better organisation.
+    - **Give the model a role (system prompts)**: Assign a role to set the model's context.
+    - **Prefill responses**: Start with part of an answer to guide the model.
+    - **Chain complex prompts**: Break tasks into smaller steps to handle complexity.
+    - **Long context tips**: Provide rich context, especially for lengthy tasks.
     """)
 
 # New dropdown with additional resources
