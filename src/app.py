@@ -158,7 +158,7 @@ with st.expander("When to prompt engineer"):
     - **Chain complex prompts**: Break tasks into smaller steps to handle complexity.
     - **Long context tips**: Provide rich context, especially for lengthy tasks.
 
-    #### Source:
+    **Source:**
     Anthropic. (n.d.). *Prompt engineering techniques*. Retrieved from https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview
         """)
 
