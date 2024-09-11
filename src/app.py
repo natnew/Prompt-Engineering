@@ -157,7 +157,10 @@ with st.expander("When to prompt engineer"):
     - **Prefill responses**: Start with part of an answer to guide the model.
     - **Chain complex prompts**: Break tasks into smaller steps to handle complexity.
     - **Long context tips**: Provide rich context, especially for lengthy tasks.
-    """)
+
+    #### Source:
+    Anthropic. (n.d.). *Prompt engineering techniques*. Retrieved from https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview
+        """)
 
 # New dropdown with additional resources
 with st.expander("Additional Resources"):
