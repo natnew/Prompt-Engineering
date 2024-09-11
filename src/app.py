@@ -147,7 +147,7 @@ with st.expander("When to prompt engineer"):
     selecting the right model can sometimes offer quicker and more practical improvements.
 
     ### Best Practices
-    These techniques range from broadly useful to more specific. Follow them in order, but their impact depends on your use case:
+    These techniques range from broadly useful to more specific. Their impact depends on your use case:
 
     - **Be clear and direct**: Use simple, direct prompts to reduce confusion.
     - **Use examples (multishot)**: Provide multiple examples to improve response accuracy.
