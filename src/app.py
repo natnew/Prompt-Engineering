@@ -159,7 +159,6 @@ with st.expander("When to prompt engineer"):
     - **Long context tips**: Provide rich context, especially for lengthy tasks.
     
     # Add the source
-    st.write("""
     **Source:**
     Anthropic. [*Prompt engineering techniques*](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
     """)
