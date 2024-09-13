@@ -142,8 +142,9 @@ st.title("Interactive Prompt Engineering")
 # Add dropdown section using st.expander with updated wording
 with st.expander("When to prompt engineer"):
     st.write("""
-    Prompt engineering is highly effective for controlling certain success criteria, but it’s not always the best solution for every issue. 
+    Prompt engineering is highly effective for controlling performance benchmarks, but it’s not always the best solution for every issue. 
     Instead of relying on prompt engineering to fix everything, selecting the right model can sometimes offer quicker and more practical improvements.
+    Explore the tips below for better prompt outputs.
 
     ### Best Practices
     These techniques range from broadly useful to more specific. Their impact depends on your use case:
