@@ -148,14 +148,14 @@ with st.expander("When to prompt engineer"):
     ### Best Practices
     These techniques range from broadly useful to more specific. Their impact depends on your use case:
 
-    - **Be clear and direct**: Use simple, direct prompts to reduce confusion.
-    - **Use examples (multishot)**: Provide multiple examples to improve response accuracy.
-    - **Let the model think (chain of thought)**: Guide the model step-by-step for complex reasoning.
+    - **Be concise and explicit**: Use simple, direct prompts to reduce confusion.
+    - **Provide examples**: Provide multiple examples to improve response accuracy.
+    - **Allow the model time to reason**: Guide the model step-by-step for complex reasoning.
     - **Use XML tags**: Structure prompts with tags for better organisation.
-    - **Give the model a role (system prompts)**: Assign a role to set the model's context.
-    - **Prefill responses**: Start with part of an answer to guide the model.
-    - **Chain complex prompts**: Break tasks into smaller steps to handle complexity.
-    - **Long context tips**: Provide rich context, especially for lengthy tasks.
+    - **Assign a role to the model**: Assign a role to set the model's context.
+    - **Pre-populate responses**: Start with part of an answer to guide the model.
+    - **Link complex prompts**: Break tasks into smaller steps to handle complexity.
+    
     
     **Source:**
     Anthropic. [*Prompt engineering techniques*](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
