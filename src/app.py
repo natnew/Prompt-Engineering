@@ -180,6 +180,22 @@ with st.expander("Additional Resources"):
 st.subheader("Selected Prompt")
 user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 
+# Get model response with complete sentence enforcement
+if st.button("Generate Response"):
+    with st.spinner("Generating response..."):
+        response = get_model_response(
+            selected_model_engine,
+            formatted_prompt,
+            temperature=temperature,
+            top_p=top_p,
+            max_tokens=max_tokens
+        )
+    if response:
+        st.subheader("Model Response")
+        st.write(response)
+    else:
+        st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
+
 st.subheader("Technique Description")
 st.info(technique_description)
 
@@ -222,18 +238,18 @@ st.subheader("Transformation Explanation")
 st.info(detailed_explanation)
 
 
-# Get model response with complete sentence enforcement
-if st.button("Generate Response"):
-    with st.spinner("Generating response..."):
-        response = get_model_response(
-            selected_model_engine,
-            formatted_prompt,
-            temperature=temperature,
-            top_p=top_p,
-            max_tokens=max_tokens
-        )
-    if response:
-        st.subheader("Model Response")
-        st.write(response)
-    else:
-        st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
+# # Get model response with complete sentence enforcement
+# if st.button("Generate Response"):
+#     with st.spinner("Generating response..."):
+#         response = get_model_response(
+#             selected_model_engine,
+#             formatted_prompt,
+#             temperature=temperature,
+#             top_p=top_p,
+#             max_tokens=max_tokens
+#         )
+#     if response:
+#         st.subheader("Model Response")
+#         st.write(response)
+#     else:
+#         st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
