@@ -1,20 +1,61 @@
 {
     "Zero-Shot Prompting": {
-        "description": "Zero-shot prompting involves asking a language model to perform a task without providing any examples or specific instructions beforehand. It’s effective for straightforward tasks."
+        "description": "In Zero-Shot Prompting, the model receives the prompt directly without any examples or demonstrations. This technique leverages the model's ability to perform tasks it hasn't explicitly been trained on by relying on its vast pre-existing knowledge.",
+        "process": [
+            "We are now going to apply **Zero-Shot Prompting** to your prompt.",
+            "First, we will **take your input prompt as-is**.",
+            "Then, we will **send it directly to the model without any modifications**.",
+            "Finally, the model will **generate a response based on its pre-trained knowledge**."
+        ]
     },
     "Few-Shot Prompting": {
-        "description": "Few-shot prompting provides a few examples to guide the model's understanding, enhancing accuracy for nuanced tasks."
+        "description": "Few-Shot Prompting involves providing the model with a small number of examples or demonstrations before asking it to perform a task. These examples help the model understand the desired format, style, or content of the response.",
+        "process": [
+            "We are now going to apply **Few-Shot Prompting** to your prompt.",
+            "First, we will **prepare a few examples related to your task**.",
+            "Next, we will **prepend these examples to your input prompt**.",
+            "Then, we will **send the combined prompt to the model**.",
+            "Finally, the model will **generate a response that follows the patterns in the examples**."
+        ]
     },
-    "Chain-of-Thought (CoT) Prompting": {
-        "description": "Chain-of-Thought (CoT) prompting instructs a model to reason step-by-step, improving performance on complex tasks."
+    "Chain-of-Thought Prompting": {
+        "description": "Chain-of-Thought Prompting encourages the model to generate intermediate reasoning steps before arriving at a final answer. By instructing the model to 'think step-by-step,' it breaks down complex problems into smaller, manageable parts.",
+        "process": [
+            "We are now going to apply **Chain-of-Thought Prompting** to your prompt.",
+            "First, we will **take your input prompt**.",
+            "Next, we will **append an instruction to think step-by-step**.",
+            "Then, we will **send the modified prompt to the model**.",
+            "Finally, the model will **provide a detailed reasoning process along with the answer**."
+        ]
     },
     "Meta-Prompting": {
-        "description": "Meta-Prompting uses a prompt to create another prompt that better aligns with a task, enhancing specificity and accuracy."
+        "description": "Meta-Prompting involves asking the model to generate or refine prompts themselves. This technique leverages the model's understanding of language structures and task requirements to produce more precise and effective prompts.",
+        "process": [
+            "We are now going to apply **Meta-Prompting** to your prompt.",
+            "First, we will **ask the model to create a detailed prompt based on your task**.",
+            "Then, we will **use the generated prompt to elicit a response from the model**.",
+            "Finally, the model will **provide a response that aligns with the refined prompt**."
+        ]
     },
     "Self-Consistency Prompting": {
-        "description": "Consistency prompting ensures outputs are logically coherent across similar tasks, reducing variability."
+        "description": "Self-Consistency Prompting encourages the model to produce responses that are logically coherent and consistent across similar tasks. By exploring multiple reasoning paths, the model can enhance the reliability of its outputs.",
+        "process": [
+            "We are now going to apply **Self-Consistency Prompting** to your prompt.",
+            "First, we will **take your input prompt**.",
+            "Next, we will **instruct the model to ensure consistency and logical coherence**.",
+            "Then, we will **send the modified prompt to the model**.",
+            "Finally, the model will **generate a consistent and coherent response**."
+        ]
     },
-    "Tree-of-Thought (ToT) Prompting": {
-        "description": "Tree-of-Thought (ToT) prompting guides the model through multiple thought paths, promoting creative thinking."
+    "Tree-of-Thought Prompting": {
+        "description": "Tree-of-Thought Prompting encourages the model to explore multiple reasoning paths or solutions before arriving at a final answer. This method promotes creative thinking and problem-solving in complex or open-ended tasks.",
+        "process": [
+            "We are now going to apply **Tree-of-Thought Prompting** to your prompt.",
+            "First, we will **take your input prompt**.",
+            "Next, we will **instruct the model to consider multiple approaches and evaluate them**.",
+            "Then, we will **send the modified prompt to the model**.",
+            "Finally, the model will **provide an optimized response after exploring different options**."
+        ]
     }
 }
+
