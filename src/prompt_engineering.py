@@ -15,7 +15,7 @@ def apply_technique(prompt, technique):
     elif technique == "Few-Shot":
         # Few-Shot Prompting: Generate examples based on the prompt
         examples = generate_few_shot_examples(prompt)
-        transformed_prompt = f"{examples}\nNow, {prompt}"
+        transformed_prompt = f"{examples}\n**Now, {prompt}**"
         explanation = (
             "Few-Shot Prompting: Provided dynamically generated examples to guide the model. "
             "These examples are based on your prompt to improve response relevance."
@@ -23,7 +23,7 @@ def apply_technique(prompt, technique):
 
     elif technique == "Chain-of-Thought":
         # Chain-of-Thought Prompting: Encourage step-by-step reasoning
-        transformed_prompt = f"{prompt}\n\nLet's think step-by-step."
+        transformed_prompt = f"{prompt}\n\n**Let's think step-by-step.**"
         explanation = (
             "Chain-of-Thought Prompting: Encouraged the model to explain its reasoning process step-by-step, "
             "which can lead to more accurate and detailed responses."
@@ -31,16 +31,14 @@ def apply_technique(prompt, technique):
 
     elif technique == "Meta-Prompting":
         # Meta-Prompting: Ask the model to create a prompt for the task
-        transformed_prompt = (
-            f"Construct an abstract framework that outlines the key components and sequential steps required for {prompt}"
-        )
+        transformed_prompt = f"**Construct an abstract framework that outlines the key components and sequential steps required for {prompt}**"
         explanation = (
             "Meta-Prompting: Focused on the structural aspects of the task, asking the model to consider the form and pattern of information."
         )
 
     elif technique == "Self-Consistency":
         # Self-Consistency Prompting: Instruct the model to ensure consistency
-        transformed_prompt = f"{prompt}\n\nPlease explore different possible steps and ensure that your final process is logically consistent and coherent."
+        transformed_prompt = f"{prompt}\n\n**Please explore different possible steps and ensure that your final process is logically consistent and coherent.**"
         explanation = (
             "Self-Consistency Prompting: Encouraged the model to consider multiple reasoning paths and select the most consistent answer."
         )
@@ -48,10 +46,11 @@ def apply_technique(prompt, technique):
     elif technique == "Tree-of-Thought":
         # Tree-of-Thought Prompting: Encourage considering multiple approaches
         transformed_prompt = (
-            f"{prompt}\n\nFor each major stage, generate two alternative methods (candidates) to accomplish that step. "
+            f"{prompt}\n\n"
+            "**For each major stage, generate two alternative methods (candidates) to accomplish that step. "
             "Evaluate the effectiveness of each alternative, considering factors like efficiency and fairness. "
             "Based on your evaluation, select the best option and proceed to the next stage. "
-            "Continue this process to develop a comprehensive and optimized workflow."
+            "Continue this process to develop a comprehensive and optimized workflow.**"
         )
         explanation = (
             "Tree-of-Thought Prompting: Prompted the model to consider multiple approaches at each step, enabling systematic exploration and strategic planning."
@@ -86,7 +85,7 @@ def generate_few_shot_examples(prompt):
             "- Support agents are assigned tickets according to expertise.\n"
             "- Agents troubleshoot and resolve issues.\n"
             "- Resolutions are documented in the knowledge base.\n"
-            "- Customers are notified of the resolution.\n"
+            "- Customers are notified of the resolution."
         )
     else:
         # Default examples
@@ -103,7 +102,7 @@ def generate_few_shot_examples(prompt):
             "- Remove the flat tire.\n"
             "- Mount the spare tire.\n"
             "- Tighten the lug nuts.\n"
-            "- Lower the car.\n"
+            "- Lower the car."
         )
 
     return examples
