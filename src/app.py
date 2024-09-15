@@ -197,11 +197,9 @@ if use_thinking_step == 1:
 if avoid_hallucinations == 1:
     formatted_prompt += "\n\nIf you don't know, state 'I don't know.' Use <Reference></Reference> to pull the reference you used to produce an output."
 
-# st.subheader("Transformed Prompt")
-# st.info(formatted_prompt)
-
 st.subheader("Transformed Prompt")
-st.markdown(f"```markdown\n{formatted_prompt}\n```")
+st.info(formatted_prompt)
+
 
 # Get model response with complete sentence enforcement
 if st.button("Generate Response"):
