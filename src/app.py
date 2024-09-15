@@ -86,6 +86,11 @@ selected_prompt = st.sidebar.selectbox("Select Prompt", prompts_data[selected_de
 selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.keys()))
 technique_description = techniques[selected_technique]["description"]
 
+####
+# Fetch the technique description
+technique_description = techniques[selected_technique]["description"]
+####
+
 # Output format selection
 output_format = st.sidebar.selectbox(
     "Select Output Format",
@@ -198,8 +203,12 @@ if avoid_hallucinations == 1:
     formatted_prompt += "\n\nIf you don't know, state 'I don't know.' Use <Reference></Reference> to pull the reference you used to produce an output."
 
 st.subheader("Transformed Prompt")
-st.info(formatted_prompt)
+#st.info(formatted_prompt)
 
+####
+# Display the technique description in the "Transformed Prompt" box
+st.info(technique_description)
+####
 
 # Get model response with complete sentence enforcement
 if st.button("Generate Response"):
