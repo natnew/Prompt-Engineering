@@ -87,8 +87,10 @@ selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.ke
 technique_description = techniques[selected_technique]["description"]
 
 ####
-# Fetch the technique description
-technique_description = techniques[selected_technique]["description"]
+# Fetch the technique description and process steps
+technique_info = techniques[selected_technique]
+technique_description = technique_info["description"]
+technique_process_steps = technique_info["process"]
 ####
 
 # Output format selection
@@ -206,8 +208,17 @@ st.subheader("Transformed Prompt")
 #st.info(formatted_prompt)
 
 ####
-# Display the technique description in the "Transformed Prompt" box
-st.info(technique_description)
+# Prepare the technique process text
+process_text = "\n".join(technique_process_steps)
+# Replace placeholders with actual values
+process_text = process_text.replace("[PROMPT]", user_prompt).replace("[TECHNIQUE]", selected_technique)
+
+# Combine the description and process
+combined_text = f"{technique_description}\n\n{process_text}"
+
+# Display the combined text in the "Transformed Prompt" info box
+st.subheader("Transformed Prompt")
+st.info(combined_text)
 ####
 
 # Get model response with complete sentence enforcement
