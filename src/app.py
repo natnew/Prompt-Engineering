@@ -217,7 +217,6 @@ process_text = process_text.replace("[PROMPT]", user_prompt).replace("[TECHNIQUE
 combined_text = f"{technique_description}\n\n{process_text}"
 
 # Display the combined text in the "Transformed Prompt" info box
-st.subheader("Transformed Prompt")
 st.info(combined_text)
 ####
 
