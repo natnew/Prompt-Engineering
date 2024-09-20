@@ -5,11 +5,13 @@ from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
 import os
 
-# Custom CSS to hide the GitHub icon
+# Custom CSS to hide the GitHub icon and Streamlit viewer badge
 hide_github_icon = """
     <style>
-    #GithubIcon {
-      visibility: hidden;
+    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
+    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
+    .viewerBadge_text__1JaDK {
+        display: none;
     }
     </style>
 """
