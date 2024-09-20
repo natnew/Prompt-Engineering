@@ -5,6 +5,17 @@ from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
 import os
 
+# Custom CSS to hide the GitHub icon
+hide_github_icon = """
+    <style>
+    #GithubIcon {
+      visibility: hidden;
+    }
+    </style>
+"""
+
+# Inject the custom CSS
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 # Load data
 techniques = load_techniques()
