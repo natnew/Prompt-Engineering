@@ -16,6 +16,9 @@ st.sidebar.title("📊 Prompt Engineering Tool")
 # Description of the app
 st.sidebar.write("This tool is designed to help you explore and learn prompt engineering techniques using various models like GPT-4o, GPT-4 Turbo, and more.")
 
+# Add this note to the sidebar:
+st.sidebar.markdown("Accuracy, correctness, or appropriateness cannot be guaranteed.")
+
 # Check if API key is provided
 if os.getenv("OPENAI_API_KEY"):
     st.sidebar.success("✅ API key already provided!")
