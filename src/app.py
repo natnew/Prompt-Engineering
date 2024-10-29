@@ -184,6 +184,7 @@ with st.expander("Additional Resources"):
     - [Best Practices](https://generative-ai-hub.gitbook.io/awesomegenerativeai): Learn the best practices for designing and using prompts effectively.
     - [Use Cases](https://generative-ai-hub.gitbook.io/awesomegenerativeai): Discover various use cases where prompt engineering can make a significant impact.
     - [Ethical Guidelines](https://ethicsinai.streamlit.app/): Understand the ethical considerations and guidelines for using AI responsibly.
+    - [Conspiracy Generator)](https://conspiracy-generation.streamlit.app/): Explore the ethical implications of narrative manipulation with our AI tool that turns any story into a conspiracy theory.
     """, unsafe_allow_html=True)
 
 
