@@ -186,6 +186,7 @@ with st.expander("Additional Resources"):
     - [Ethical Guidelines](https://ethicsinai.streamlit.app/): Understand the ethical considerations and guidelines for using AI responsibly.
     - [Conspiracy Generator](https://conspiracy-generation.streamlit.app/): Explore the ethical implications of narrative manipulation with our AI tool that turns any story into a conspiracy theory.
     - [Chat with Hugging Face Zephyr 7b](https://huggingface.co/spaces/NatashaN/chatbot_retry_undo_like): Explore a modern chatbot interface with the Hugging Face Zephyr 7b model, which allows users to interact dynamically with individual chat messages.
+    - [ArXiv CS RAG](https://huggingface.co/spaces/NatashaN/Arxiv-CS-RAG): Leverage the ArXiv CS Retrieval-Augmented Generator (RAG) to explore cutting-edge research in computer science.
     """, unsafe_allow_html=True)
 
 
