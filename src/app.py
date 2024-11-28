@@ -19,6 +19,10 @@ st.sidebar.write("This tool is designed to help you explore and learn prompt eng
 # Add this note to the sidebar:
 st.sidebar.write("Accuracy, correctness, or appropriateness cannot be guaranteed.")
 
+st.markdown(
+       "Built by [Natasha Newbold](https://www.linkedin.com/in/natasha-newbold/) "
+            )
+
 # Check if API key is provided
 if os.getenv("OPENAI_API_KEY"):
     st.sidebar.success("✅ API key already provided!")
