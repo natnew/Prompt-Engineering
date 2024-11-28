@@ -19,7 +19,7 @@ st.sidebar.write("This tool is designed to help you explore and learn prompt eng
 # Add this note to the sidebar:
 st.sidebar.write("Accuracy, correctness, or appropriateness cannot be guaranteed.")
 
-st.markdown(
+st.sidebar.write(
        "Built by [Natasha Newbold](https://www.linkedin.com/in/natasha-newbold/) "
             )
 
