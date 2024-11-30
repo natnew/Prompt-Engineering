@@ -33,65 +33,7 @@ else:
 
 #####
 #####
-# Function to convert audio to text (placeholder for actual transcription logic)
-def audio_to_text(audio_data):
-    recognizer = sr.Recognizer()
-    # Convert audio data to BytesIO for processing
-    with sr.AudioFile(BytesIO(audio_data.read())) as source:
-        audio_content = recognizer.record(source)
-    try:
-        # Transcribe the audio content to text
-        transcribed_text = recognizer.recognize_google(audio_content)
-        return transcribed_text
-    except sr.UnknownValueError:
-        return "Could not understand the audio."
-    except sr.RequestError as e:
-        return f"Speech-to-text service error: {e}"
 
-# Collapsible section for audio and text prompt handling
-with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False):
-    st.write("Record, transcribe, or upload prompts in audio or text format.")
-
-    # Record audio prompt
-    audio_data = st.audio_input("Record your audio prompt:")
-    if audio_data:
-        st.audio(audio_data)
-        st.success("Audio recorded successfully.")
-        
-        # Convert audio to text
-        transcribed_text = audio_to_text(audio_data)
-        
-        # Display the transcribed text
-        st.info(f"Transcribed Text: {transcribed_text}")
-        
-        # Provide a download link for the transcribed text
-        text_file = BytesIO()
-        text_file.write(transcribed_text.encode())
-        text_file.seek(0)
-        st.download_button(
-            label="Download Transcribed Text",
-            data=text_file,
-            file_name="transcribed_prompt.txt",
-            mime="text/plain"
-        )
-
-    # File uploader for text prompts
-    st.write("Alternatively, upload a text file containing your prompt:")
-    text_file = st.file_uploader("Upload a text file", type=["txt"])
-    if text_file:
-        # Read the text file
-        uploaded_text = text_file.read().decode()
-        st.success("Text file uploaded successfully.")
-        st.info(f"Uploaded Text: {uploaded_text}")
-        
-        # Set the uploaded text as the selected prompt
-        selected_prompt = uploaded_text
-    else:
-        selected_prompt = "Default prompt text goes here."
-
-# Display the selected prompt area outside the collapsible section
-st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 #####
 #####
 
