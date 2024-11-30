@@ -13,7 +13,7 @@ techniques = load_techniques()
 prompts_data = load_prompts()
 
 # Streamlit sidebar for user selection
-st.sidebar.title("📊 Prompt Engineering Tool")
+st.sidebar.title(":streamlit: Prompt Engineering Tool")
 
 # Description of the app
 st.sidebar.write("This tool is designed to help you explore and learn prompt engineering techniques using various models like GPT-4o, GPT-4 Turbo, and more.")
