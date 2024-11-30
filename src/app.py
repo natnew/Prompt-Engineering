@@ -151,8 +151,8 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://example.com/blog).**")
 
 # Main content
-st.title("Interactive Prompt Engineering ")
-st.markdown(":streamlit:")
+st.title("Interactive Prompt Engineering :balloon:")
+
 
 # Add dropdown section using st.expander with updated wording
 with st.expander("When to prompt engineer"):
