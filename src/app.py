@@ -43,14 +43,14 @@ with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=False):
         # Optional: Convert audio to text for further processing
         # Example: transcribed_prompt = speech_to_text(audio_data)
 
-       # Alternative: File uploader for audio input
-       st.sidebar.subheader("Upload an Audio Prompt")
-       audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
-       
-       if audio_file:
-           st.audio(audio_file)
-           st.success("Audio uploaded successfully. Process it as needed.")
-           # Process audio_file as per your requirement
+# Alternative: File uploader for audio input
+st.sidebar.subheader("Upload an Audio Prompt")
+audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
+
+if audio_file:
+    st.audio(audio_file)
+    st.success("Audio uploaded successfully. Process it as needed.")
+    # Process audio_file as per your requirement
 
 
 
