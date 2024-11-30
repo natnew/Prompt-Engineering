@@ -5,7 +5,7 @@ from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
 import os
 #import speech_recognition as sr  # For speech-to-text
-#from io import BytesIO  # To handle audio data
+from io import BytesIO  # To handle audio data
 
 
 # Load data
@@ -32,28 +32,60 @@ else:
     st.sidebar.error("❌ API key not provided. Please set your OpenAI API key.")
 
 #####
-# Collapsible audio input section in the sidebar
-with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=False):
-    st.write("Record your prompt as audio below:")
-    audio_data = st.audio_input("Record your audio prompt:")
+#####
+# Function to convert audio to text (placeholder for actual transcription logic)
+def audio_to_text(audio_data):
+    # Placeholder for transcription logic
+    # Replace with actual speech-to-text implementation (e.g., SpeechRecognition, Whisper)
+    return "This is a sample transcribed text from the audio."
 
+# Collapsible section for audio and text prompt handling
+with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False):
+    st.write("Record, transcribe, or upload prompts in audio or text format.")
+
+    # Record audio prompt
+    audio_data = st.audio_input("Record your audio prompt:")
     if audio_data:
         st.audio(audio_data)
-        st.success("Audio recorded successfully. Process it as needed.")
-        # Optional: Convert audio to text for further processing
-        # Example: transcribed_prompt = speech_to_text(audio_data)
+        st.success("Audio recorded successfully.")
+        
+        # Convert audio to text
+        transcribed_text = audio_to_text(audio_data)
+        
+        # Display the transcribed text
+        st.info(f"Transcribed Text: {transcribed_text}")
+        
+        # Provide a download link for the transcribed text
+        text_file = BytesIO()
+        text_file.write(transcribed_text.encode())
+        text_file.seek(0)
+        st.download_button(
+            label="Download Transcribed Text",
+            data=text_file,
+            file_name="transcribed_prompt.txt",
+            mime="text/plain"
+        )
 
-# Alternative: File uploader for audio input
-st.sidebar.subheader("Upload an Audio Prompt")
-audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
+    # File uploader for text prompts
+    st.write("Alternatively, upload a text file containing your prompt:")
+    text_file = st.file_uploader("Upload a text file", type=["txt"])
+    if text_file:
+        # Read the text file
+        uploaded_text = text_file.read().decode()
+        st.success("Text file uploaded successfully.")
+        st.info(f"Uploaded Text: {uploaded_text}")
+        
+        # Set the uploaded text as the selected prompt
+        selected_prompt = uploaded_text
+    else:
+        selected_prompt = "Default prompt text goes here."
 
-if audio_file:
-    st.audio(audio_file)
-    st.success("Audio uploaded successfully. Process it as needed.")
-    # Process audio_file as per your requirement
+# Display the selected prompt area outside the collapsible section
+st.subheader("Selected Prompt")
+user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 
 
-
+#####
 #####
 
 # Model selection
