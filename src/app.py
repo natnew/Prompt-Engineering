@@ -30,6 +30,18 @@ else:
     st.sidebar.error("❌ API key not provided. Please set your OpenAI API key.")
 
 #####
+# Collapsible audio input section in the sidebar
+with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=False):
+    st.write("Record your prompt as audio below:")
+    audio_data = st.audio_input("Record your audio prompt:")
+
+    if audio_data:
+        st.audio(audio_data)
+        st.success("Audio recorded successfully. Process it as needed.")
+        # Optional: Convert audio to text for further processing
+        # Example: transcribed_prompt = speech_to_text(audio_data)
+
+
 # Alternative: File uploader for audio input
 st.sidebar.subheader("Upload an Audio Prompt")
 audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
