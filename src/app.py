@@ -29,6 +29,16 @@ if os.getenv("OPENAI_API_KEY"):
 else:
     st.sidebar.error("❌ API key not provided. Please set your OpenAI API key.")
 
+#####
+# Alternative: File uploader for audio input
+st.sidebar.subheader("Upload an Audio Prompt")
+audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
+
+if audio_file:
+    st.audio(audio_file)
+    st.success("Audio uploaded successfully. Process it as needed.")
+    # Process audio_file as per your requirement
+#####
 
 # Model selection
 selected_model = st.sidebar.selectbox("Select Model", list(MODELS.keys()))
