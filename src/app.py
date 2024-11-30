@@ -33,37 +33,26 @@ else:
 
 #####
 # Collapsible audio input section in the sidebar
-# Audio input section in the sidebar
-with st.sidebar.expander("🎙️ Record or Upload an Audio Prompt", expanded=False):
-    st.write("Record or upload your prompt as audio below:")
+with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=False):
+    st.write("Record your prompt as audio below:")
     audio_data = st.audio_input("Record your audio prompt:")
-    
+
     if audio_data:
         st.audio(audio_data)
-        st.success("Audio recorded successfully. Processing...")
-        
-        # Convert audio to text
-        recognizer = sr.Recognizer()
-        with sr.AudioFile(BytesIO(audio_data.read())) as source:
-            audio_content = recognizer.record(source)
-        try:
-            # Transcribe the audio to text
-            transcribed_text = recognizer.recognize_google(audio_content)
-            st.info(f"Transcribed Text: {transcribed_text}")
-            
-            # Replace selected_prompt with the transcribed text
-            selected_prompt = transcribed_text
-        except sr.UnknownValueError:
-            st.error("Could not understand the audio. Please try again.")
-        except sr.RequestError as e:
-            st.error(f"Speech-to-text service error: {e}")
+        st.success("Audio recorded successfully. Process it as needed.")
+        # Optional: Convert audio to text for further processing
+        # Example: transcribed_prompt = speech_to_text(audio_data)
 
-# Replace the selected_prompt in the main content with transcribed text
-st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
+       # Alternative: File uploader for audio input
+       st.sidebar.subheader("Upload an Audio Prompt")
+       audio_file = st.sidebar.file_uploader("Choose an audio file", type=["wav", "mp3"])
+       
+       if audio_file:
+           st.audio(audio_file)
+           st.success("Audio uploaded successfully. Process it as needed.")
+           # Process audio_file as per your requirement
 
-# Apply technique to the prompt and process as usual
-transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
+
 
 #####
 
