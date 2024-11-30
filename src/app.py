@@ -4,8 +4,8 @@ from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
 import os
-import speech_recognition as sr  # For speech-to-text
-from io import BytesIO  # To handle audio data
+#import speech_recognition as sr  # For speech-to-text
+#from io import BytesIO  # To handle audio data
 
 
 # Load data
