@@ -219,18 +219,6 @@ if avoid_hallucinations == 1:
 st.subheader("Transformed Prompt")
 #st.info(formatted_prompt)
 
-####
-# Collapsible audio input section in the sidebar
-with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=False):
-    st.write("Record your prompt as audio below:")
-    audio_data = st.audio_input("Record your audio prompt:")
-
-    if audio_data:
-        st.audio(audio_data)
-        st.success("Audio recorded successfully. Process it as needed.")
-        # Optional: Convert audio to text for further processing
-        # Example: transcribed_prompt = speech_to_text(audio_data)
-
 
 ####
 # Prepare the technique process text
