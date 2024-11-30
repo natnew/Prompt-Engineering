@@ -35,9 +35,18 @@ else:
 #####
 # Function to convert audio to text (placeholder for actual transcription logic)
 def audio_to_text(audio_data):
-    # Placeholder for transcription logic
-    # Replace with actual speech-to-text implementation (e.g., SpeechRecognition, Whisper)
-    return "This is a sample transcribed text from the audio."
+    recognizer = sr.Recognizer()
+    # Convert audio data to BytesIO for processing
+    with sr.AudioFile(BytesIO(audio_data.read())) as source:
+        audio_content = recognizer.record(source)
+    try:
+        # Transcribe the audio content to text
+        transcribed_text = recognizer.recognize_google(audio_content)
+        return transcribed_text
+    except sr.UnknownValueError:
+        return "Could not understand the audio."
+    except sr.RequestError as e:
+        return f"Speech-to-text service error: {e}"
 
 # Collapsible section for audio and text prompt handling
 with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False):
