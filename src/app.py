@@ -175,7 +175,7 @@ with st.sidebar.expander("Advanced Settings"):
 
 # Bottom of sidebar - Blog link and clear button
 st.sidebar.markdown("---")
-st.sidebar.markdown("📖 **Learn how to build this app in this [blog](https://example.com/blog).**")
+
 
 # Main content
 st.title("Interactive Prompt Engineering :balloon:")
