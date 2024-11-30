@@ -33,11 +33,17 @@ else:
 
 #####
 #####
-# Function to convert audio to text (placeholder for actual transcription logic)
+# Function to transcribe audio to text using SpeechRecognition
 def audio_to_text(audio_data):
-    # Placeholder for transcription logic
-    # Replace with actual speech-to-text implementation (e.g., SpeechRecognition, Whisper)
-    return "This is a sample transcribed text from the audio."
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(BytesIO(audio_data.read())) as source:
+        audio_content = recognizer.record(source)
+    try:
+        return recognizer.recognize_google(audio_content)
+    except sr.UnknownValueError:
+        return "Could not understand the audio."
+    except sr.RequestError as e:
+        return f"Speech-to-text service error: {e}"
 
 # Collapsible section for audio and text prompt handling
 with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False):
@@ -65,24 +71,6 @@ with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False
             file_name="transcribed_prompt.txt",
             mime="text/plain"
         )
-
-    # File uploader for text prompts
-    st.write("Alternatively, upload a text file containing your prompt:")
-    text_file = st.file_uploader("Upload a text file", type=["txt"])
-    if text_file:
-        # Read the text file
-        uploaded_text = text_file.read().decode()
-        st.success("Text file uploaded successfully.")
-        st.info(f"Uploaded Text: {uploaded_text}")
-        
-        # Set the uploaded text as the selected prompt
-        selected_prompt = uploaded_text
-    else:
-        selected_prompt = "Default prompt text goes here."
-
-# Display the selected prompt area outside the collapsible section
-st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 
 
 #####
