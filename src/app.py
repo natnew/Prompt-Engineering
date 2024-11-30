@@ -33,13 +33,16 @@ else:
 
 #####
 #####
-# Function to transcribe audio to text using SpeechRecognition
+# Function to convert audio to text (placeholder for actual transcription logic)
 def audio_to_text(audio_data):
     recognizer = sr.Recognizer()
+    # Convert audio data to BytesIO for processing
     with sr.AudioFile(BytesIO(audio_data.read())) as source:
         audio_content = recognizer.record(source)
     try:
-        return recognizer.recognize_google(audio_content)
+        # Transcribe the audio content to text
+        transcribed_text = recognizer.recognize_google(audio_content)
+        return transcribed_text
     except sr.UnknownValueError:
         return "Could not understand the audio."
     except sr.RequestError as e:
@@ -72,7 +75,23 @@ with st.sidebar.expander("🎙️ Handle Audio and Text Prompts", expanded=False
             mime="text/plain"
         )
 
+    # File uploader for text prompts
+    st.write("Alternatively, upload a text file containing your prompt:")
+    text_file = st.file_uploader("Upload a text file", type=["txt"])
+    if text_file:
+        # Read the text file
+        uploaded_text = text_file.read().decode()
+        st.success("Text file uploaded successfully.")
+        st.info(f"Uploaded Text: {uploaded_text}")
+        
+        # Set the uploaded text as the selected prompt
+        selected_prompt = uploaded_text
+    else:
+        selected_prompt = "Default prompt text goes here."
 
+# Display the selected prompt area outside the collapsible section
+st.subheader("Selected Prompt")
+user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
 #####
 #####
 
