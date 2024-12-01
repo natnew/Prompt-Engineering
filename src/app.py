@@ -7,7 +7,7 @@ import os
 #import speech_recognition as sr  # For speech-to-text
 from io import BytesIO  # To handle audio data
 
-
+st.snow()
 # Load data
 techniques = load_techniques()
 prompts_data = load_prompts()
