@@ -6,6 +6,8 @@ from utils import load_techniques, load_prompts
 import os
 #import speech_recognition as sr  # For speech-to-text
 from io import BytesIO  # To handle audio data
+from pydub import AudioSegment
+import tempfile
 
 st.snow()
 # Load data
@@ -156,6 +158,99 @@ with st.sidebar.expander("Advanced Settings"):
 
 # Bottom of sidebar - Blog link and clear button
 st.sidebar.markdown("---")
+
+######
+######
+
+st.set_page_config(
+    page_title="Audio to Text Prompting",
+    page_icon="🎧",
+)
+st.title(':streamlit: Audio to Text Prompting')
+st.caption('Upload or record an audio file.')
+
+# Function to transcribe audio using OpenAI Whisper API
+def audio_to_text(audio_file):
+    try:
+        # Transcribe the audio file
+        response = openai.Audio.transcribe(
+            model="whisper-1",
+            file=audio_file,
+            response_format="text"
+        )
+        return response
+    except openai.error.InvalidRequestError as e:
+        if "bytes" in str(e):
+            st.warning("File is too large. Breaking it into smaller chunks...")
+            audio_file.seek(0)
+            audio = AudioSegment.from_file(audio_file, format="mp3")
+            halfway_point = len(audio) // 2
+
+            first_half = audio[:halfway_point]
+            second_half = audio[halfway_point:]
+
+            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as first_file, \
+                 tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as second_file:
+                first_half.export(first_file.name, format="mp3")
+                second_half.export(second_file.name, format="mp3")
+                first_file.seek(0)
+                second_file.seek(0)
+
+                transcription_text = ""
+                with open(first_file.name, "rb") as f:
+                    transcription_text += openai.Audio.transcribe(
+                        model="whisper-1",
+                        file=f,
+                        response_format="text"
+                    )
+                with open(second_file.name, "rb") as f:
+                    transcription_text += openai.Audio.transcribe(
+                        model="whisper-1",
+                        file=f,
+                        response_format="text"
+                    )
+            return transcription_text
+        else:
+            return f"An error occurred: {e}"
+
+# Collapsible audio input section
+with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
+    st.write("Record or upload your audio prompt below:")
+    
+    # Audio recorder (placeholder for recording)
+    st.caption("Record your audio or upload an mp3 file.")
+    audio_recording = st.audio_input("Record audio")
+
+    audio_to_process = None
+    if audio_recording:
+        st.audio(audio_recording)
+        audio_to_process = audio_recording
+        st.success("Audio recorded successfully.")
+
+    if audio_to_process:
+        with st.spinner("Transcribing audio..."):
+            try:
+                # Handle transcription
+                transcribed_text = audio_to_text(audio_to_process)
+                st.info(f"Transcribed Text: {transcribed_text}")
+                
+                # Downloadable transcription
+                text_file = BytesIO()
+                text_file.write(transcribed_text.encode())
+                text_file.seek(0)
+                st.download_button(
+                    label="Download Transcribed Text",
+                    data=text_file,
+                    file_name="transcribed_prompt.txt",
+                    mime="text/plain"
+                )
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
+
+
+######
+######
 
 
 # Main content
