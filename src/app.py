@@ -8,6 +8,7 @@ import os
 from io import BytesIO  # To handle audio data
 from pydub import AudioSegment
 import tempfile
+import openai
 
 st.snow()
 # Load data
