@@ -230,7 +230,7 @@ with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
             try:
                 # Handle transcription
                 transcribed_text = audio_to_text(audio_to_process)
-                st.info(f"Transcribed Text: {transcribed_text}")
+                st.info(f"Copy Transcribed Text: {transcribed_text}")
                 
                 # Downloadable transcription
                 text_file = BytesIO()
