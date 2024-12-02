@@ -213,7 +213,7 @@ def audio_to_text(audio_file):
 
 # Collapsible audio input section
 with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
-    st.write("Record or upload your audio prompt below:")
+    st.write("Record your audio prompt below:")
     
     # Audio recorder (placeholder for recording)
     st.caption("Record your audio or upload an mp3 file.")
