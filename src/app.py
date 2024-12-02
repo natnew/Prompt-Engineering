@@ -162,10 +162,7 @@ st.sidebar.markdown("---")
 ######
 ######
 
-st.set_page_config(
-    page_title="Audio to Text Prompting",
-    page_icon="🎧",
-)
+
 st.title(':streamlit: Audio to Text Prompting')
 st.caption('Upload or record an audio file.')
 
