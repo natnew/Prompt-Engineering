@@ -216,7 +216,7 @@ with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
     st.write("Record your audio prompt below:")
     
     # Audio recorder (placeholder for recording)
-    st.caption("Record your audio or upload an mp3 file.")
+    st.caption("Record your audio.")
     audio_recording = st.audio_input("Record audio")
 
     audio_to_process = None
