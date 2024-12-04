@@ -164,8 +164,6 @@ st.sidebar.markdown("---")
 ######
 
 
-st.title(':streamlit: Audio to Text Prompting')
-st.caption('Upload or record an audio file.')
 
 # Function to transcribe audio using OpenAI Whisper API
 def audio_to_text(audio_file):
