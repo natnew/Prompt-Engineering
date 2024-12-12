@@ -13,7 +13,15 @@ MODELS = {
     "GPT-4o mini": "gpt-4o-mini",
     "GPT-4 Turbo": "gpt-4-turbo",
     "GPT-4": "gpt-4",
-    "GPT-3.5": "gpt-3.5-turbo"
+    "GPT-3.5": "gpt-3.5-turbo",
+    "Claude 3 Sonnet": "claude-3-sonnet",
+    "Claude 3 Haiku": "claude-3-haiku",
+    "Command": "command",
+    "Llama 3 70b instruct": "llama-3-70b-instruct",
+    "Phi 3": "phi-3",
+    "ChatGLM Turbo": "chatglm-turbo",
+    "Baidu ERNIE 4": "ernie-4",
+    "Mistral 7b": "mistral-7b"
     #"o1-preview": "o1-preview",
     #"o1-mini": "o1-mini"
     
