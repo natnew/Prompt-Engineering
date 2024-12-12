@@ -10,6 +10,13 @@ from pydub import AudioSegment
 import tempfile
 import openai
 
+import toml
+
+import anthropic
+import cohere
+import openai
+import transformers
+
 st.snow()
 # Load data
 techniques = load_techniques()
