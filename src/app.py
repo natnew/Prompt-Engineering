@@ -20,18 +20,25 @@ import transformers
 # Determine if the app is running in Streamlit Cloud
 is_streamlit_cloud = os.getenv("STREAMLIT_ENV", "") == "cloud"
 
-if is_streamlit_cloud:
+try:
+    # Use Streamlit Secrets Management in Streamlit Cloud
     openai_non_o_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
     openai_o_key = st.secrets["api_keys"]["OPENAI_O_KEY"]
     anthropic_api_key = st.secrets["api_keys"]["ANTHROPIC_API_KEY"]
     cohere_api_key = st.secrets["api_keys"]["COHERE_API_KEY"]
-else:
-    # For local testing, you can manually load secrets.toml
-    secrets = toml.load("secrets.toml")
-    openai_non_o_key = secrets["api_keys"]["OPENAI_API_KEY"]
-    openai_o_key = secrets["api_keys"]["OPENAI_O_KEY"]
-    anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
-    cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
+except Exception:
+    # Fallback for local testing with secrets.toml
+    try:
+        secrets = toml.load("secrets.toml")
+        openai_non_o_key = secrets["api_keys"]["OPENAI_API_KEY"]
+        openai_o_key = secrets["api_keys"]["OPENAI_O_KEY"]
+        anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
+        cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
+    except FileNotFoundError:
+        raise RuntimeError(
+            "Secrets file not found! Please add your API keys to either Streamlit Cloud Secrets or a local 'secrets.toml'."
+        )
+
 
 
 # Initialize Cohere client globally
