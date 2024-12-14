@@ -17,6 +17,21 @@ import cohere
 import openai
 import transformers
 
+# Determine if the app is running in Streamlit Cloud
+is_streamlit_cloud = os.getenv("STREAMLIT_ENV", "") == "cloud"
+
+if is_streamlit_cloud:
+    # Use Streamlit's secrets on the cloud
+    openai.api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
+    anthropic_api_key = st.secrets["api_keys"]["ANTHROPIC_API_KEY"]
+    cohere_api_key = st.secrets["api_keys"]["COHERE_API_KEY"]
+else:
+    # Load secrets manually in Codespaces from secrets.toml
+    secrets = toml.load("secrets.toml")
+    openai.api_key = secrets["api_keys"]["OPENAI_API_KEY"]
+    anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
+    cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
+
 st.snow()
 # Load data
 techniques = load_techniques()
