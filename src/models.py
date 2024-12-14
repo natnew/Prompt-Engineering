@@ -21,9 +21,9 @@ MODELS = {
     "Phi 3": "phi-3",
     "ChatGLM Turbo": "chatglm-turbo",
     "Baidu ERNIE 4": "ernie-4",
-    "Mistral 7b": "mistral-7b"
-    #"o1-preview": "o1-preview",
-    #"o1-mini": "o1-mini"
+    "Mistral 7b": "mistral-7b",
+    "o1-preview": "o1-preview",
+    "o1-mini": "o1-mini"
     
 }
 
@@ -37,60 +37,53 @@ def ensure_complete_ending(text):
         text = text.rstrip() + ' Thank you for your understanding and support. Sincerely, [Your Company Name] Customer Support Team.'
     return text
 
-def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200):
-    """Fetches response from the selected model, ensuring it is complete."""
-    try:
-        generated_text = ""
-        continuation_prompt = prompt
-        retries = 3  # Number of retries in case of rate limit errors
+def get_model_response(selected_model_key, prompt, **kwargs):
+    # Retrieve model metadata
+    model_metadata = MODELS[selected_model_key]
+    provider = model_metadata["provider"]
+    engine = model_metadata["engine"]
 
-        while retries > 0:
-            try:
-                response = openai.ChatCompletion.create(
-                    model=model,
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": continuation_prompt}
-                    ],
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                    n=1,
-                    stop=None  # Remove the stop sequence to let the model generate more naturally
-                )
-                chunk = response['choices'][0]['message']['content'].strip()
+    # Set API key or client
+    client = set_api_key_or_client(model_metadata)
 
-                # Append only non-duplicate chunks to avoid repetition
-                if chunk and chunk not in generated_text:
-                    generated_text += " " + chunk
+    # Handle each provider
+    if provider == "openai":
+        try:
+            response = openai.Completion.create(
+                engine=engine,
+                prompt=prompt,
+                temperature=kwargs.get("temperature", 0.7),
+                top_p=kwargs.get("top_p", 1.0),
+                max_tokens=kwargs.get("max_tokens", 150),
+            )
+            return response["choices"][0]["text"].strip()
+        except openai.error.OpenAIError as e:
+            return f"Error: {e}"
 
-                # Check for completeness or if the text length is close to the max token limit
-                if is_complete_sentence(generated_text) or len(generated_text.split()) >= max_tokens:
-                    break
+    elif provider == "anthropic":
+        try:
+            response = client.completion(
+                model=engine,
+                prompt=prompt,
+                max_tokens_to_sample=kwargs.get("max_tokens", 150),
+                temperature=kwargs.get("temperature", 0.7),
+            )
+            return response["completion"].strip()
+        except anthropic.AnthropicError as e:
+            return f"Error: {e}"
 
-                # Update the continuation prompt to continue from where it left off
-                continuation_prompt = generated_text
+    elif provider == "cohere":
+        try:
+            response = client.generate(
+                model=engine,
+                prompt=prompt,
+                max_tokens=kwargs.get("max_tokens", 150),
+                temperature=kwargs.get("temperature", 0.7),
+            )
+            return response.generations[0].text.strip()
+        except cohere.CohereError as e:
+            return f"Error: {e}"
 
-                # If chunk is empty or short, avoid looping indefinitely
-                if len(chunk) < max_tokens / 2:  # Adjust this based on expected output length
-                    break
+    else:
+        return "Unsupported provider."
 
-            except openai.error.RateLimitError as e:
-                # Handle rate limit error
-                wait_time = float(str(e).split("Please try again in ")[1].split("s")[0])
-                st.warning(f"Rate limit reached for {model}. Retrying in {wait_time} seconds...")
-                time.sleep(wait_time)
-                retries -= 1
-
-        if retries == 0:
-            st.error(f"Rate limit reached for {model}. Please try again later or select another model.")
-            return None  # No valid response, just return
-
-        # Ensure the last part ends with a full stop or add a closing statement
-        generated_text = ensure_complete_ending(generated_text)
-
-        return generated_text.strip()
-
-    except Exception as e:
-        st.error(f"An error occurred: {str(e)}")
-        return None

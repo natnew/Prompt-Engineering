@@ -21,16 +21,36 @@ import transformers
 is_streamlit_cloud = os.getenv("STREAMLIT_ENV", "") == "cloud"
 
 if is_streamlit_cloud:
-    # Use Streamlit's secrets on the cloud
-    openai.api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
+    openai_non_o_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
+    openai_o_key = st.secrets["api_keys"]["OPENAI_O_KEY"]
     anthropic_api_key = st.secrets["api_keys"]["ANTHROPIC_API_KEY"]
     cohere_api_key = st.secrets["api_keys"]["COHERE_API_KEY"]
 else:
-    # Load secrets manually in Codespaces from secrets.toml
     secrets = toml.load("secrets.toml")
-    openai.api_key = secrets["api_keys"]["OPENAI_API_KEY"]
+    openai_non_o_key = secrets["api_keys"]["OPENAI_API_KEY"]
+    openai_o_key = secrets["api_keys"]["OPENAI_O_KEY"]
     anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
     cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
+
+# Initialize Cohere client globally
+cohere_client = cohere.Client(cohere_api_key)
+
+def set_api_key_or_client(model_metadata):
+    provider = model_metadata["provider"]
+
+    if provider == "openai":
+        if model_metadata["type"] == "o":  # GPT-O models
+            openai.api_key = openai_o_key
+        else:  # Non-GPT-O models
+            openai.api_key = openai_non_o_key
+    elif provider == "anthropic":
+        # Return the initialized Anthropic client
+        return anthropic.Client(anthropic_api_key)
+    elif provider == "cohere":
+        # Return the pre-initialized Cohere client
+        return cohere_client
+    else:
+        raise ValueError(f"Unsupported provider: {provider}")
 
 st.snow()
 # Load data

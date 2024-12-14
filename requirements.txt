@@ -10,6 +10,7 @@ torch         # For Llama or open-source models (e.g., Mistral) that use PyTorch
 # azure-cognitiveservices  # For Microsoft models via Azure
 baidu-aip      # For Baidu's ERNIE API
 requests      # For API calls where a specific SDK is unavailable
+toml
 
 
 
