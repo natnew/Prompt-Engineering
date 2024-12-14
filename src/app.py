@@ -3,6 +3,8 @@ import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
+from models import set_api_key_or_client
+
 import os
 #import speech_recognition as sr  # For speech-to-text
 from io import BytesIO  # To handle audio data
@@ -44,22 +46,6 @@ except Exception:
 # Initialize Cohere client globally
 cohere_client = cohere.Client(cohere_api_key)
 
-def set_api_key_or_client(model_metadata):
-    provider = model_metadata["provider"]
-
-    if provider == "openai":
-        if model_metadata["type"] == "o":  # GPT-O models
-            openai.api_key = openai_o_key
-        else:  # Non-GPT-O models
-            openai.api_key = openai_non_o_key
-    elif provider == "anthropic":
-        # Return the initialized Anthropic client
-        return anthropic.Client(anthropic_api_key)
-    elif provider == "cohere":
-        # Return the pre-initialized Cohere client
-        return cohere_client
-    else:
-        raise ValueError(f"Unsupported provider: {provider}")
 
 st.snow()
 # Load data
