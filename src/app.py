@@ -26,11 +26,13 @@ if is_streamlit_cloud:
     anthropic_api_key = st.secrets["api_keys"]["ANTHROPIC_API_KEY"]
     cohere_api_key = st.secrets["api_keys"]["COHERE_API_KEY"]
 else:
+    # For local testing, you can manually load secrets.toml
     secrets = toml.load("secrets.toml")
     openai_non_o_key = secrets["api_keys"]["OPENAI_API_KEY"]
     openai_o_key = secrets["api_keys"]["OPENAI_O_KEY"]
     anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
     cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
+
 
 # Initialize Cohere client globally
 cohere_client = cohere.Client(cohere_api_key)
