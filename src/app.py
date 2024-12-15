@@ -3,49 +3,12 @@ import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS
 from utils import load_techniques, load_prompts
-from models import set_api_key_or_client
-
 import os
 #import speech_recognition as sr  # For speech-to-text
 from io import BytesIO  # To handle audio data
 from pydub import AudioSegment
 import tempfile
 import openai
-
-import toml
-
-import anthropic
-import cohere
-import openai
-import transformers
-
-# Determine if the app is running in Streamlit Cloud
-is_streamlit_cloud = os.getenv("STREAMLIT_ENV", "") == "cloud"
-
-try:
-    # Use Streamlit Secrets Management in Streamlit Cloud
-    openai_non_o_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
-    openai_o_key = st.secrets["api_keys"]["OPENAI_O_KEY"]
-    anthropic_api_key = st.secrets["api_keys"]["ANTHROPIC_API_KEY"]
-    cohere_api_key = st.secrets["api_keys"]["COHERE_API_KEY"]
-except Exception:
-    # Fallback for local testing with secrets.toml
-    try:
-        secrets = toml.load("secrets.toml")
-        openai_non_o_key = secrets["api_keys"]["OPENAI_API_KEY"]
-        openai_o_key = secrets["api_keys"]["OPENAI_O_KEY"]
-        anthropic_api_key = secrets["api_keys"]["ANTHROPIC_API_KEY"]
-        cohere_api_key = secrets["api_keys"]["COHERE_API_KEY"]
-    except FileNotFoundError:
-        raise RuntimeError(
-            "Secrets file not found! Please add your API keys to either Streamlit Cloud Secrets or a local 'secrets.toml'."
-        )
-
-
-
-# Initialize Cohere client globally
-cohere_client = cohere.Client(cohere_api_key)
-
 
 st.snow()
 # Load data
