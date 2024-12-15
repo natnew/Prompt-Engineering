@@ -13,17 +13,17 @@ MODELS = {
     "GPT-4o mini": {"provider": "openai", "engine": "gpt-4o-mini"},
     "GPT-4 Turbo": {"provider": "openai", "engine": "gpt-4-turbo"},
     "GPT-4": {"provider": "openai", "engine": "gpt-4"},
-    "GPT-3.5": {"provider": "openai", "engine": "gpt-3.5-turbo"},
-    "Claude 3 Sonnet": {"provider": "anthropic", "engine": "claude-3-sonnet"},
-    "Claude 3 Haiku": {"provider": "anthropic", "engine": "claude-3-haiku"},
-    "Command": {"provider": "cohere", "engine": "command"},
-    "Llama 3 70b instruct": {"provider": "huggingface", "engine": "llama-3-70b-instruct"},
-    "Phi 3": {"provider": "huggingface", "engine": "phi-3"},
-    "ChatGLM Turbo": {"provider": "huggingface", "engine": "chatglm-turbo"},
-    "Baidu ERNIE 4": {"provider": "baidu", "engine": "ernie-4"},
-    "Mistral 7b": {"provider": "huggingface", "engine": "mistral-7b"},
-    "o1-preview": {"provider": "openai", "engine": "o1-preview"},
-    "o1-mini": {"provider": "openai", "engine": "o1-mini"},
+    "GPT-3.5": {"provider": "openai", "engine": "gpt-3.5-turbo"}
+    #"Claude 3 Sonnet": {"provider": "anthropic", "engine": "claude-3-sonnet"},
+    #"Claude 3 Haiku": {"provider": "anthropic", "engine": "claude-3-haiku"},
+    #"Command": {"provider": "cohere", "engine": "command"},
+    #"Llama 3 70b instruct": {"provider": "huggingface", "engine": "llama-3-70b-instruct"},
+    #"Phi 3": {"provider": "huggingface", "engine": "phi-3"},
+    #"ChatGLM Turbo": {"provider": "huggingface", "engine": "chatglm-turbo"},
+    #"Baidu ERNIE 4": {"provider": "baidu", "engine": "ernie-4"},
+    #"Mistral 7b": {"provider": "huggingface", "engine": "mistral-7b"},
+    #"o1-preview": {"provider": "openai", "engine": "o1-preview"},
+    #"o1-mini": {"provider": "openai", "engine": "o1-mini"},
 }
 
 
