@@ -9,6 +9,7 @@ from io import BytesIO  # To handle audio data
 from pydub import AudioSegment
 import tempfile
 import openai
+import time
 
 st.snow()
 # Load data
@@ -345,6 +346,7 @@ if st.button("Generate Response"):
                 max_tokens=max_tokens
             ):
                 yield chunk
+                time.sleep(0.02)  # Optional: Simulate a delay for better streaming experience
         except Exception as e:
             yield f"Error generating response: {str(e)}"
 
