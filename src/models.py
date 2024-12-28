@@ -41,9 +41,13 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
                 response = openai.ChatCompletion.create(
                     model=model,
                     messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": continuation_prompt}
-                    ],
+                        {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
+                    ]
+
+                    #messages=[
+                        #{"role": "system", "content": "You are a helpful assistant."},
+                        #{"role": "user", "content": continuation_prompt}
+                    #],
                     max_tokens=max_tokens,
                     temperature=temperature,
                     top_p=top_p,
