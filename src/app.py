@@ -331,26 +331,26 @@ combined_text = f"{technique_description}\n\n{process_text}"
 st.info(combined_text)
 ####
 
-# Get model response with complete sentence enforcement
+# Get model response with real-time streaming
 if st.button("Generate Response"):
-    with st.spinner("Generating response..."):
-        try:
-            # Stream the response from the model
-            def stream_response():
-                for chunk in get_model_response(
-                    selected_model_engine,
-                    formatted_prompt,
-                    temperature=temperature,
-                    top_p=top_p,
-                    max_tokens=max_tokens
-                ):
-                    yield chunk
+    st.subheader("Model Response")
 
-            # Display streamed response
-            st.subheader("Model Response")
-            st.write_stream(stream_response)
+    def stream_response():
+        try:
+            for chunk in get_model_response(
+                selected_model_engine,
+                formatted_prompt,
+                temperature=temperature,
+                top_p=top_p,
+                max_tokens=max_tokens
+            ):
+                yield chunk
         except Exception as e:
-            st.error(f"The response could not be generated: {str(e)}")
+            yield f"Error generating response: {str(e)}"
+
+    # Stream the response in real-time
+    st.write_stream(stream_response())
+
 
 # Detailed transformation explanation
 detailed_explanation = f"""
