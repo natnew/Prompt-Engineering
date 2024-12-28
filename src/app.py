@@ -334,18 +334,23 @@ st.info(combined_text)
 # Get model response with complete sentence enforcement
 if st.button("Generate Response"):
     with st.spinner("Generating response..."):
-        response = get_model_response(
-            selected_model_engine,
-            formatted_prompt,
-            temperature=temperature,
-            top_p=top_p,
-            max_tokens=max_tokens
-        )
-    if response:
-        st.subheader("Model Response")
-        st.write(response)
-    else:
-        st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
+        try:
+            # Stream the response from the model
+            def stream_response():
+                for chunk in get_model_response(
+                    selected_model_engine,
+                    formatted_prompt,
+                    temperature=temperature,
+                    top_p=top_p,
+                    max_tokens=max_tokens
+                ):
+                    yield chunk
+
+            # Display streamed response
+            st.subheader("Model Response")
+            st.write_stream(stream_response)
+        except Exception as e:
+            st.error(f"The response could not be generated: {str(e)}")
 
 # Detailed transformation explanation
 detailed_explanation = f"""
