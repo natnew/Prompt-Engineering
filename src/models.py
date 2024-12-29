@@ -24,10 +24,18 @@ def is_complete_sentence(text):
     return text.strip().endswith(('.', '!', '?'))
 
 def ensure_complete_ending(text):
-    """Ensure the text has a complete ending, add a conclusion if missing."""
-    if not text.strip().endswith(('.', '!', '?')):
-        text = text.rstrip() + ' Thank you for your understanding and support. Sincerely, [Your Company Name] Customer Support Team.'
-    return text
+    """Ensure the text has a complete ending; add a conclusion if missing."""
+    # Check if the text is empty
+    if not text.strip():
+        return text  # Return the empty text without appending anything
+
+    # Check if the text ends with a complete sentence
+    if text.strip().endswith(('.', '!', '?')):
+        return text  # Text is already complete
+
+    # Append the closing statement if the text is incomplete
+    return text.rstrip() + ' Thank you for your understanding and support. Sincerely, [Your Company Name] Customer Support Team.'
+
 
 def get_model_response(model, prompt, temperature=None, top_p=None, max_tokens=None):
     """Fetches response from the selected model, ensuring it is complete."""
