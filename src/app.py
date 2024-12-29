@@ -273,7 +273,8 @@ with st.expander("When to prompt engineer"):
     - **Link complex prompts**: Break tasks into smaller steps to handle complexity.
 
     ### Effective Prompting for O1 Models
-    - O1 models differ from GPT-4o or Claude 3.5 Sonnet, excelling in chain-of-thought reasoning without explicit guidance. Follow these practices for optimal results:
+    O1 models differ from GPT-4o or Claude 3.5 Sonnet, excelling in chain-of-thought reasoning without explicit guidance. Follow these practices for optimal results:
+    
     - Use concise, clear prompts; avoid unnecessary detail.
     - Skip chain-of-thought instructions; the model reasons internally.
     - Define input parts clearly using delimiters (e.g., triple quotes, XML tags).
