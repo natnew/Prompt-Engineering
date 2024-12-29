@@ -54,7 +54,7 @@ def get_model_response(model, prompt, temperature=None, top_p=None, max_tokens=N
                     request_params["temperature"] = 1  # o1 models only support temperature=1
                     request_params["top_p"] = 1        # o1 models only support top_p=1
                 else:
-                    request_params["max_tokens"] = max_tokens if max_tokens else 200  # Default to 200 if not specified
+                    request_params["max_tokens"] = max_tokens if max_tokens else 500  # Default to 500 if not specified
                     request_params["temperature"] = temperature if temperature is not None else 0.7
                     request_params["top_p"] = top_p if top_p is not None else 1.0
 
