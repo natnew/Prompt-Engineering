@@ -38,19 +38,32 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
 
         while retries > 0:
             try:
-                response = openai.ChatCompletion.create(
-                    model=model,
-                    messages=[
-                        {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
-                    ],
+                # Determine the appropriate parameter based on the model
+                if model in ["o1-preview", "o1-mini"]:
+                    response = openai.ChatCompletion.create(
+                        model=model,
+                        messages=[
+                            {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
+                        ],
+                        max_completion_tokens=max_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        n=1,
+                        stop=None  # Remove the stop sequence to let the model generate more naturally
+                    )
+                else:
+                    response = openai.ChatCompletion.create(
+                        model=model,
+                        messages=[
+                            {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
+                        ],
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        n=1,
+                        stop=None  # Remove the stop sequence to let the model generate more naturally
+                    )
 
-            
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                    n=1,
-                    stop=None  # Remove the stop sequence to let the model generate more naturally
-                )
                 chunk = response['choices'][0]['message']['content'].strip()
 
                 # Append only non-duplicate chunks to avoid repetition
@@ -87,3 +100,4 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
         return None
+
