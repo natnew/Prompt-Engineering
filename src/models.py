@@ -45,7 +45,8 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
                         messages=[
                             {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
                         ],
-                        max_completion_tokens=max_tokens,  # Use max_completion_tokens for o1 models
+                        # o1 models use max_completion_tokens instead of max_tokens
+                        max_completion_tokens=max_tokens,
                         temperature=1,  # o1 models only support temperature=1
                         top_p=1,        # o1 models only support top_p=1
                         n=1,
