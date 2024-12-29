@@ -29,7 +29,7 @@ def ensure_complete_ending(text):
         text = text.rstrip() + ' Thank you for your understanding and support. Sincerely, [Your Company Name] Customer Support Team.'
     return text
 
-def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200):
+def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=None):
     """Fetches response from the selected model, ensuring it is complete."""
     try:
         generated_text = ""
@@ -45,7 +45,7 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
                         messages=[
                             {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
                         ],
-                        max_completion_tokens=max_tokens,
+                        max_completion_tokens=max_tokens if max_tokens is not None else 200,
                         temperature=1,  # o1 models only support temperature=1
                         top_p=top_p,
                         n=1,
@@ -57,7 +57,7 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
                         messages=[
                             {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
                         ],
-                        max_tokens=max_tokens,
+                        max_tokens=max_tokens if max_tokens is not None else 200,
                         temperature=temperature,
                         top_p=top_p,
                         n=1,
@@ -71,14 +71,14 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
                     generated_text += " " + chunk
 
                 # Check for completeness or if the text length is close to the max token limit
-                if is_complete_sentence(generated_text) or len(generated_text.split()) >= max_tokens:
+                if is_complete_sentence(generated_text) or (max_tokens is not None and len(generated_text.split()) >= max_tokens):
                     break
 
                 # Update the continuation prompt to continue from where it left off
                 continuation_prompt = generated_text
 
                 # If chunk is empty or short, avoid looping indefinitely
-                if len(chunk) < max_tokens / 2:  # Adjust this based on expected output length
+                if len(chunk) < (max_tokens / 2 if max_tokens is not None else 100):  # Adjust this based on expected output length
                     break
 
             except openai.error.RateLimitError as e:
