@@ -1,35 +1,43 @@
 {
     "Customer Services & Fulfillment": [
         "Draft a response to a customer inquiry about the availability of a recently published academic journal.",
-        "Provide guidance to a customer on how to access their digital subscription to our academic books."
+        "Provide guidance to a customer on how to access their digital subscription to our academic books.",
+        "Develop an algorithm to optimize customer service resource allocation based on inquiry volume and complexity."
     ],
     "Editorial/Publishing": [
         "Edit a draft chapter of an academic book to ensure it meets our publishing standards.",
-        "Summarize the key findings of a submitted research paper for the journal's editor review."
+        "Summarize the key findings of a submitted research paper for the journal's editor review.",
+        "Create a Python script to automate the formatting of academic manuscripts to comply with our publishing standards."
     ],
     "Marketing": [
         "Write a compelling description for an upcoming release of a new academic textbook on neuroscience.",
-        "Develop a social media campaign strategy to promote the latest issue of our academic journal."
+        "Develop a social media campaign strategy to promote the latest issue of our academic journal.",
+        "Develop a machine learning model to predict the success of social media campaigns promoting academic publications."
     ],
     "Operations/Other": [
         "Outline the steps to manage and optimize the production workflow for a new journal issue.",
-        "Create a process for managing author submissions and peer reviews for academic publications."
+        "Create a process for managing author submissions and peer reviews for academic publications.",
+        "Design a database schema to manage and optimize the production workflow for academic journal issues."
     ],
     "Branding & Design": [
         "Design a cover concept for a new academic book on climate change policy.",
-        "Create a style guide for the layout and formatting of academic journals to ensure consistency."
+        "Create a style guide for the layout and formatting of academic journals to ensure consistency.",
+        "Create a generative design algorithm to produce unique cover concepts for academic books on various scientific topics."
     ],
     "Corporate Communications": [
         "Draft a press release announcing the publication of a groundbreaking research paper in one of our journals.",
-        "Write an internal memo to staff about new policies regarding open access publishing."
+        "Write an internal memo to staff about new policies regarding open access publishing.",
+        "Draft a comprehensive communication plan outlining the steps to announce a groundbreaking research publication, including stakeholder analysis and message development."
     ],
     "Production": [
         "Develop a production schedule for a new academic book series focused on modern physics.",
-        "Identify potential bottlenecks in the production of academic journals and propose solutions."
+        "Identify potential bottlenecks in the production of academic journals and propose solutions.",
+        "Develop a Gantt chart using project management software to schedule the production of a new academic book series in modern physics."
     ],
     "Publishing Process Management": [
         "Outline the end-to-end process for publishing a new academic journal from manuscript submission to final distribution.",
-        "Create a timeline for the peer review and editing process for an upcoming special issue."
+        "Create a timeline for the peer review and editing process for an upcoming special issue.",
+        "Create a flowchart detailing the end-to-end process for publishing a new academic journal, incorporating decision points and quality control measures."
     ]
 }
 
