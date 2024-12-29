@@ -38,19 +38,33 @@ def get_model_response(model, prompt, temperature=0.7, top_p=1.0, max_tokens=200
 
         while retries > 0:
             try:
-                response = openai.ChatCompletion.create(
-                    model=model,
-                    messages=[
-                        {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
-                    ],
+                # Determine the appropriate parameters based on the model
+                if model in ["o1-preview", "o1-mini"]:
+                    response = openai.ChatCompletion.create(
+                        model=model,
+                        messages=[
+                            {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
+                        ],
+                        # o1 models use max_completion_tokens instead of max_tokens
+                        max_completion_tokens=max_tokens,
+                        temperature=1,  # o1 models only support temperature=1
+                        top_p=1,        # o1 models only support top_p=1
+                        n=1,
+                        stop=None  # Remove the stop sequence to let the model generate more naturally
+                    )
+                else:
+                    response = openai.ChatCompletion.create(
+                        model=model,
+                        messages=[
+                            {"role": "user", "content": "You are a helpful assistant. " + continuation_prompt}
+                        ],
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        n=1,
+                        stop=None  # Remove the stop sequence to let the model generate more naturally
+                    )
 
-            
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                    n=1,
-                    stop=None  # Remove the stop sequence to let the model generate more naturally
-                )
                 chunk = response['choices'][0]['message']['content'].strip()
 
                 # Append only non-duplicate chunks to avoid repetition
