@@ -58,7 +58,7 @@ def get_model_response(model, prompt, temperature=None, top_p=None, max_tokens=N
 
                 # Adjust parameters based on the model
                 if model in ["o1-preview", "o1-mini"]:
-                    request_params["max_completion_tokens"] = max_tokens if max_tokens else 10000  # Default to 10000 if not specified
+                    request_params["max_completion_tokens"] = 10000  # Default to 10000 if not specified
                     request_params["temperature"] = 1  # o1 models only support temperature=1
                     request_params["top_p"] = 1        # o1 models only support top_p=1
                 else:
