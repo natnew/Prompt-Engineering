@@ -11,6 +11,13 @@ import tempfile
 import openai
 import time
 
+# Set the page configuration
+st.set_page_config(
+    page_title="Prompt Engineering",  # Title of the tab in the browser
+    page_icon="📊",                 # An optional emoji or icon
+    layout="wide"                   # Optional layout setting
+)
+
 st.snow()
 # Load data
 techniques = load_techniques()
