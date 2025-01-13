@@ -25,10 +25,10 @@ import streamlit.components.v1 as components
 #########
 def typewrite(text: str):
     # Load external assets (CSS and JavaScript)
-    with open("./assets/style.css") as f:
+    with open("../assets/style.css") as f:
         css = f.read()
 
-    with open("./assets/main.js") as f:
+    with open("../assets/main.js") as f:
         js = f.read()
 
     # HTML structure for the typewriting effect
