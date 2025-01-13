@@ -21,46 +21,46 @@ st.set_page_config(
 
 
 
-import streamlit.components.v1 as components
-#########
-def typewrite(text: str):
-    # Load external assets (CSS and JavaScript)
-    with open("../assets/style.css") as f:
-        css = f.read()
+# import streamlit.components.v1 as components
+# #########
+# def typewrite(text: str):
+#     # Load external assets (CSS and JavaScript)
+#     with open("../assets/style.css") as f:
+#         css = f.read()
 
-    with open("../assets/main.js") as f:
-        js = f.read()
+#     with open("../assets/main.js") as f:
+#         js = f.read()
 
-    # HTML structure for the typewriting effect
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <style>
-            {css}
-        </style>
-    </head>
-    <body>
-        <p id="typewrite" data-content="" ;">{text}</p>
-        <script>
-            {js}
-        </script>
-    </body>
-    </html>
-    """
-    return html
+#     # HTML structure for the typewriting effect
+#     html = f"""
+#     <!DOCTYPE html>
+#     <html>
+#     <head>
+#         <style>
+#             {css}
+#         </style>
+#     </head>
+#     <body>
+#         <p id="typewrite" data-content="" ;">{text}</p>
+#         <script>
+#             {js}
+#         </script>
+#     </body>
+#     </html>
+#     """
+#     return html
 
 
-# Text to display
-display_text = """Welcome to this Prompt Engineering app!...Did you know?
-A clear and explicit prompt can reduce errors and improve output quality.
-Using ‘temperature’? Higher values increase creativity, while lower values improve consistency.
-Great prompts are specific, structured, and goal-oriented—clarity is key!"""
+# # Text to display
+# display_text = """Welcome to this Prompt Engineering app!...Did you know?
+# A clear and explicit prompt can reduce errors and improve output quality.
+# Using ‘temperature’? Higher values increase creativity, while lower values improve consistency.
+# Great prompts are specific, structured, and goal-oriented—clarity is key!"""
 
-typewrite_html = typewrite(display_text)
+# typewrite_html = typewrite(display_text)
 
-# Render the streaming text in the app
-components.html(typewrite_html, height=100)
+# # Render the streaming text in the app
+# components.html(typewrite_html, height=100)
 
 #########
 
