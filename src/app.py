@@ -394,6 +394,23 @@ combined_text = f"{technique_description}\n\n{process_text}"
 st.info(combined_text)
 ####
 
+
+# Detailed transformation explanation
+detailed_explanation = f"""
+The following transformation was applied using the **{selected_technique}** technique with the specified parameters:
+- **Output Format**: {output_format}
+- **Tone**: {tone}
+- **Temperature**: {temperature} - This controls the randomness of the output. A lower value means more deterministic responses, while a higher value introduces more creativity.
+- **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
+- **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
+- **Role**: {role} - Simulates the perspective of a specific role.
+- **Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A 'Thinking Step' header is included to explicitly show the model's thought process.
+- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references.
+"""
+
+st.subheader("Transformation Explanation")
+st.info(detailed_explanation)
+
 # Get model response with real-time streaming
 if st.button("Generate Response"):
     st.subheader("Model Response")
@@ -416,35 +433,3 @@ if st.button("Generate Response"):
     st.write_stream(stream_response())
 
 
-# Detailed transformation explanation
-detailed_explanation = f"""
-The following transformation was applied using the **{selected_technique}** technique with the specified parameters:
-- **Output Format**: {output_format}
-- **Tone**: {tone}
-- **Temperature**: {temperature} - This controls the randomness of the output. A lower value means more deterministic responses, while a higher value introduces more creativity.
-- **Top-P (Nucleus Sampling)**: {top_p} - This parameter determines the diversity of the output. Lower values limit responses to the most likely tokens, while higher values allow for more diverse outputs.
-- **Max Length**: {max_tokens} tokens - This defines the maximum number of tokens generated in the response, controlling the response length and ensuring it does not exceed the specified limit.
-- **Role**: {role} - Simulates the perspective of a specific role.
-- **Thinking Step**: {"Enabled" if use_thinking_step == 1 else "Disabled"} - A 'Thinking Step' header is included to explicitly show the model's thought process.
-- **Avoid Hallucinations**: {"Enabled" if avoid_hallucinations == 1 else "Disabled"} - Instructs the model to avoid guessing and provide references.
-"""
-
-st.subheader("Transformation Explanation")
-st.info(detailed_explanation)
-
-
-# # Get model response with complete sentence enforcement
-# if st.button("Generate Response"):
-#     with st.spinner("Generating response..."):
-#         response = get_model_response(
-#             selected_model_engine,
-#             formatted_prompt,
-#             temperature=temperature,
-#             top_p=top_p,
-#             max_tokens=max_tokens
-#         )
-#     if response:
-#         st.subheader("Model Response")
-#         st.write(response)
-#     else:
-#         st.error("The response could not be generated due to rate limit issues. Please try again or choose a different model.")
