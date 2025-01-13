@@ -11,6 +11,7 @@ import tempfile
 import openai
 import time
 
+
 # Set the page configuration
 st.set_page_config(
     page_title="Prompt Engineering",  # Title of the tab in the browser
@@ -18,7 +19,52 @@ st.set_page_config(
     layout="wide"                   # Optional layout setting
 )
 
-st.snow()
+import streamlit.components.v1 as components
+#########
+def typewrite(text: str):
+    # Load external assets (CSS and JavaScript)
+    with open("../assets/style.css") as f:
+        css = f.read()
+
+    with open("../assets/main.js") as f:
+        js = f.read()
+
+    # HTML structure for the typewriting effect
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            {css}
+        </style>
+    </head>
+    <body>
+        <p id="typewrite" data-content="" ;">{text}</p>
+        <script>
+            {js}
+        </script>
+    </body>
+    </html>
+    """
+    return html
+
+
+# Text to display
+display_text = """Welcome to this Prompt Engineering app!...Did you know?
+A clear and explicit prompt can reduce errors and improve output quality.
+Using ‘temperature’? Higher values increase creativity, while lower values improve consistency.
+Great prompts are specific, structured, and goal-oriented—clarity is key!"""
+
+typewrite_html = typewrite(display_text)
+
+# Render the streaming text in the app
+components.html(typewrite_html, height=100)
+
+#########
+
+
+
+#st.snow()
 # Load data
 techniques = load_techniques()
 prompts_data = load_prompts()
@@ -27,7 +73,7 @@ prompts_data = load_prompts()
 st.sidebar.title(":streamlit: Prompt Engineering Tool")
 
 # Description of the app
-st.sidebar.write("This tool is designed to help you explore and learn prompt engineering techniques using various models like GPT-4o, GPT-4 Turbo, and more.")
+st.sidebar.write("This tool is designed to help you explore and learn prompt engineering techniques using various models like o1, o1-mini, GPT-4o, GPT-4o-mini, GPT-4 Turbo, and more.")
 
 # Add this note to the sidebar:
 st.sidebar.write("Accuracy, correctness, or appropriateness cannot be guaranteed.")
