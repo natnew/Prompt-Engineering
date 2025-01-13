@@ -1,0 +1,66 @@
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: none !important;
+  background-size: cover;
+}
+
+button {
+  background: #76adf5 !important;
+  color: #ffffff;
+  border: none !important;
+}
+
+button:hover {
+  background: #f5a376 !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+
+#typewrite {
+  background: none!important;
+  position: relative;
+  color: transparent;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-weight: 700;
+  display: flex;
+  box-sizing: border-box;
+}
+  
+#typewrite:after {
+  background-color: none !important;
+  content: attr(data-content);
+  line-height: 30px;
+  color: #ffffff;
+  position: absolute;
+  left: 0;
+  top:0;
+}
+
+input[type=message], input[type=email], input[type=text], textarea {
+  width: 100%; 
+  padding: 12px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  box-sizing: border-box; 
+  margin-top: 6px; 
+  margin-bottom: 16px; 
+  resize: vertical 
+}
+
+button[type=submit] {
+  background-color: #76adf5;
+  color: white;
+  padding: 7px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+  
+  
