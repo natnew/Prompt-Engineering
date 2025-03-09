@@ -15,7 +15,9 @@ MODELS = {
     "GPT-4": "gpt-4",
     "GPT-3.5": "gpt-3.5-turbo",
     "o1": "o1",
-    "o1-mini": "o1-mini"
+    "o1-mini": "o1-mini",
+    "o3-mini": "o3-mini",
+    "GPT-4.5-preview": "gpt-4.5-preview"
     
 }
 
