@@ -16,9 +16,10 @@ This app is part of a larger educational and research initiative to make prompt 
 # src/app.py
 import streamlit as st
 from prompt_engineering import apply_technique
-from models import get_model_response, MODELS
+from models import get_model_response, MODELS, sanitize_user_input, validate_model_selection
 from utils import load_techniques, load_prompts
 import os
+import mimetypes
 #import speech_recognition as sr  # For speech-to-text
 from io import BytesIO  # To handle audio data
 from pydub import AudioSegment
@@ -26,6 +27,10 @@ import tempfile
 import openai
 import time
 
+# Security configuration
+MAX_AUDIO_SIZE = 25 * 1024 * 1024  # 25MB limit for audio files
+MAX_PROMPT_LENGTH = 5000  # Maximum prompt length
+ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/m4a']
 
 # Set the page configuration
 st.set_page_config(
@@ -236,8 +241,45 @@ st.sidebar.markdown("---")
 
 
 
+# Security validation functions
+def validate_audio_file(audio_file):
+    """Validate audio file for security."""
+    if not audio_file:
+        return False, "No audio file provided"
+    
+    # Check file size
+    audio_file.seek(0, 2)  # Seek to end
+    file_size = audio_file.tell()
+    audio_file.seek(0)  # Reset to beginning
+    
+    if file_size > MAX_AUDIO_SIZE:
+        return False, f"File too large. Maximum size: {MAX_AUDIO_SIZE // (1024*1024)}MB"
+    
+    if file_size == 0:
+        return False, "Empty audio file"
+    
+    # Basic file type validation (Streamlit handles most validation)
+    return True, "Valid"
+
+def validate_model_parameters(temperature, top_p, max_tokens):
+    """Validate model parameters are within safe ranges."""
+    if not (0.0 <= temperature <= 1.0):
+        return False, "Temperature must be between 0.0 and 1.0"
+    if not (0.0 <= top_p <= 1.0):
+        return False, "Top-p must be between 0.0 and 1.0"
+    if not (1 <= max_tokens <= 1000):
+        return False, "Max tokens must be between 1 and 1000"
+    return True, "Valid"
+
+# Function to transcribe audio using OpenAI Whisper API
 # Function to transcribe audio using OpenAI Whisper API
 def audio_to_text(audio_file):
+    """Securely transcribe audio to text."""
+    # Validate audio file first
+    is_valid, validation_message = validate_audio_file(audio_file)
+    if not is_valid:
+        return f"Audio validation failed: {validation_message}"
+    
     try:
         # Transcribe the audio file
         response = openai.Audio.transcribe(
@@ -245,40 +287,56 @@ def audio_to_text(audio_file):
             file=audio_file,
             response_format="text"
         )
-        return response
+        
+        # Sanitize the transcribed text
+        sanitized_response = sanitize_user_input(response)
+        return sanitized_response
+        
     except openai.error.InvalidRequestError as e:
         if "bytes" in str(e):
             st.warning("File is too large. Breaking it into smaller chunks...")
             audio_file.seek(0)
-            audio = AudioSegment.from_file(audio_file, format="mp3")
-            halfway_point = len(audio) // 2
+            try:
+                audio = AudioSegment.from_file(audio_file, format="mp3")
+                halfway_point = len(audio) // 2
 
-            first_half = audio[:halfway_point]
-            second_half = audio[halfway_point:]
-
-            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as first_file, \
-                 tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as second_file:
-                first_half.export(first_file.name, format="mp3")
-                second_half.export(second_file.name, format="mp3")
-                first_file.seek(0)
-                second_file.seek(0)
+                first_half = audio[:halfway_point]
+                second_half = audio[halfway_point:]
 
                 transcription_text = ""
-                with open(first_file.name, "rb") as f:
-                    transcription_text += openai.Audio.transcribe(
-                        model="whisper-1",
-                        file=f,
-                        response_format="text"
-                    )
-                with open(second_file.name, "rb") as f:
-                    transcription_text += openai.Audio.transcribe(
-                        model="whisper-1",
-                        file=f,
-                        response_format="text"
-                    )
-            return transcription_text
+                
+                # Process first half
+                with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as first_file:
+                    first_half.export(first_file.name, format="mp3")
+                    first_file.seek(0)
+                    with open(first_file.name, "rb") as f:
+                        first_response = openai.Audio.transcribe(
+                            model="whisper-1",
+                            file=f,
+                            response_format="text"
+                        )
+                        transcription_text += sanitize_user_input(first_response)
+                
+                # Process second half
+                with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as second_file:
+                    second_half.export(second_file.name, format="mp3")
+                    second_file.seek(0)
+                    with open(second_file.name, "rb") as f:
+                        second_response = openai.Audio.transcribe(
+                            model="whisper-1",
+                            file=f,
+                            response_format="text"
+                        )
+                        transcription_text += sanitize_user_input(second_response)
+                
+                return transcription_text
+            except Exception as chunk_error:
+                return "An error occurred during audio processing. Please try a smaller file."
         else:
-            return f"An error occurred: {e}"
+            return "An audio processing error occurred. Please try again with a different file."
+    except Exception as e:
+        # Log the actual error for debugging but don't expose it to users
+        return "An unexpected error occurred during transcription. Please try again."
 
 # Collapsible audio input section
 with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
@@ -297,22 +355,27 @@ with st.sidebar.expander("🎙️ Record an Audio Prompt", expanded=True):
     if audio_to_process:
         with st.spinner("Transcribing audio..."):
             try:
-                # Handle transcription
+                # Handle transcription with security validation
                 transcribed_text = audio_to_text(audio_to_process)
-                st.info(f"Copy Transcribed Text: {transcribed_text}")
                 
-                # Downloadable transcription
-                text_file = BytesIO()
-                text_file.write(transcribed_text.encode())
-                text_file.seek(0)
-                st.download_button(
-                    label="Download Transcribed Text",
-                    data=text_file,
-                    file_name="transcribed_prompt.txt",
-                    mime="text/plain"
-                )
+                # Check if transcription was successful
+                if transcribed_text and not transcribed_text.startswith("Audio validation failed") and not transcribed_text.startswith("An error occurred"):
+                    st.info(f"Copy Transcribed Text: {transcribed_text}")
+                    
+                    # Downloadable transcription
+                    text_file = BytesIO()
+                    text_file.write(transcribed_text.encode())
+                    text_file.seek(0)
+                    st.download_button(
+                        label="Download Transcribed Text",
+                        data=text_file,
+                        file_name="transcribed_prompt.txt",
+                        mime="text/plain"
+                    )
+                else:
+                    st.error(transcribed_text)  # Display the error message
             except Exception as e:
-                st.error(f"An error occurred: {e}")
+                st.error("An error occurred during audio processing. Please try again with a different file.")
 
 
 
@@ -373,10 +436,32 @@ with st.expander("Additional Resources"):
 
 
 st.subheader("Selected Prompt")
-user_prompt = st.text_area("See/Type your prompt below:", value=selected_prompt)
+user_prompt = st.text_area(
+    "See/Type your prompt below:", 
+    value=selected_prompt,
+    max_chars=MAX_PROMPT_LENGTH,
+    help=f"Maximum {MAX_PROMPT_LENGTH} characters allowed for security reasons."
+)
+
+# Validate and sanitize the user prompt
+if user_prompt:
+    if len(user_prompt) > MAX_PROMPT_LENGTH:
+        st.error(f"Prompt too long. Maximum {MAX_PROMPT_LENGTH} characters allowed.")
+        st.stop()
+    
+    # Sanitize the user input
+    sanitized_user_prompt = sanitize_user_input(user_prompt)
+    if not sanitized_user_prompt:
+        st.error("Invalid prompt detected. Please modify your input.")
+        st.stop()
+    
+    if sanitized_user_prompt != user_prompt:
+        st.warning("⚠️ Some content was filtered from your prompt for security reasons.")
+else:
+    sanitized_user_prompt = ""
 
 # Apply technique to the prompt and consider output format and tone
-transformed_prompt, transformation_explanation = apply_technique(user_prompt, selected_technique)
+transformed_prompt, transformation_explanation = apply_technique(sanitized_user_prompt, selected_technique)
 
 # Adjust the transformed prompt based on output format and tone
 formatted_prompt = f"{transformed_prompt}\n\nFormat the output in {output_format} format with a {tone} tone."
@@ -399,8 +484,8 @@ st.subheader("Transformed Prompt")
 ####
 # Prepare the technique process text
 process_text = "\n".join(technique_process_steps)
-# Replace placeholders with actual values
-process_text = process_text.replace("[PROMPT]", user_prompt).replace("[TECHNIQUE]", selected_technique)
+# Replace placeholders with actual values using sanitized prompt
+process_text = process_text.replace("[PROMPT]", sanitized_user_prompt).replace("[TECHNIQUE]", selected_technique)
 
 # Combine the description and process
 combined_text = f"{technique_description}\n\n{process_text}"
@@ -428,23 +513,33 @@ st.info(detailed_explanation)
 
 # Get model response with real-time streaming
 if st.button("Generate Response"):
+    # Validate model parameters
+    param_valid, param_message = validate_model_parameters(temperature, top_p, max_tokens)
+    if not param_valid:
+        st.error(f"Invalid parameters: {param_message}")
+        st.stop()
+    
+    # Validate model selection
+    try:
+        validated_model = validate_model_selection(selected_model_engine)
+    except ValueError as e:
+        st.error(f"Invalid model selection: {e}")
+        st.stop()
+    
     st.subheader("Model Response")
 
-    def stream_response():
-        try:
-            for chunk in get_model_response(
-                selected_model_engine,
-                formatted_prompt,
-                temperature=temperature,
-                top_p=top_p,
-                max_tokens=max_tokens
-            ):
-                yield chunk
-                time.sleep(0.02)  # Optional: Simulate a delay for better streaming experience
-        except Exception as e:
-            yield f"Error generating response: {str(e)}"
-
-    # Stream the response in real-time
-    st.write_stream(stream_response())
+    # Generate response with validated inputs
+    response = get_model_response(
+        validated_model,
+        formatted_prompt,
+        temperature=temperature,
+        top_p=top_p,
+        max_tokens=max_tokens
+    )
+    
+    if response:
+        st.write(response)
+    else:
+        st.error("Failed to generate response. Please try again.")
 
 
