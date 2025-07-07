@@ -11,6 +11,8 @@ torch         # For Llama or open-source models (e.g., Mistral) that use PyTorch
 baidu-aip      # For Baidu's ERNIE API
 requests      # For API calls where a specific SDK is unavailable
 toml
+pytest>=7.0.0  # For running unit tests
+pytest-mock>=3.10.0  # For mocking in tests
 
 
 
