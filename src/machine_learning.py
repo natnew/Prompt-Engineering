@@ -1,3 +1,23 @@
+"""machine_learning.py - prompt Engineering techniques using OpenAI GPT Models.
+
+This module provides functions to apply various prompt engineering techniques using OpenAI's GPT models.
+It includes implementations for:
+
+1. Few-Shot Prompting
+2. Zero-Shot Prompting  
+3. Chain-of-Thought Prompting
+4. Meta-Prompting
+5. Self-Consistency Prompting
+6. Tree-of-Thought Prompting
+
+Each function:
+1. Constructions a tailored prompt based on the technique.
+2. Send the prompt to the OpenAI API.
+3. Returns the model's response.
+
+This module serves as a backend engine for a Streamlit application, allowing users to experiment with different prompting strategies
+to enhance the performance of language models."""
+
 import openai
 import streamlit as st
 

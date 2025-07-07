@@ -1,3 +1,18 @@
+"""Utils.py - JSON Data Loader for Prompt Engineering App
+
+This module provides utility functions to load JSON data files containing prompt techniques and department prompts.
+It includes functions to:
+
+- 'load_techniques': Load prompt techniques and their descriptions from a JSON file.
+- 'load_prompts': Load department-specific prompts from a JSON file.    
+
+both functions:
+1. Resolve the file paths dynamically relative to the script's location.
+2. Raise a clear error if expected file is missing
+3. Return the loaded data as a Python dictionary parsed from the JSON content.
+
+These utilities support modular and reusable data access across the app."""
+
 # src/utils.py
 import os
 import json

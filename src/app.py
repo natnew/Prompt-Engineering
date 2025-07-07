@@ -1,3 +1,18 @@
+"""app.py - Streamlit UI for Interactive Prompt Engineering Tool
+
+This is the main entry point for the web application that allows users to experiment with prompt engineering techniques.
+It provides a user-friendly interface for selecting models, techniques, and prompts, and generates responses from
+
+Features include:
+- Model selection from a predefined list of OpenAI models.
+- Technique selection to apply various prompt engineering strategies.   
+- Input fields for user prompts, model parameters, and advanced settings.
+- Real-time streaming of model responses.
+- Audio input for prompts with transcription capabilities.
+- Detailed explanations of the transformations applied to the prompts
+
+This app is part of a larger educational and research initiative to make prompt engineering accessible and practical for users."""
+
 # src/app.py
 import streamlit as st
 from prompt_engineering import apply_technique

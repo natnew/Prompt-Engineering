@@ -1,3 +1,26 @@
+"""prompt_engineering.py - Prompt Transformations and Explanation Logic
+
+This module contains functions to apply various prompt engineering techniques
+to enhance the performance of language models. Each technique is designed to
+transform the input prompt in a specific way, and the module provides explanations
+for each technique to help users understand the rationale behind the transformations.
+
+This module defines the 'apply_technique' function, which transforms input prompts using various
+prompt engineering techniques. The techniques include:
+1. Zero-Shot Prompting
+2. Few-Shot Prompting
+3. Chain-of-Thought Prompting
+4. Meta-Prompting
+5. Self-Consistency Prompting  
+6. Tree-of-Thought Prompting
+
+For each technuqie, the function:
+- Transforms the input prompt accordingly.
+- Returns the transformed prompt along with an explanation of the technique used.
+
+This utility helps experiement with different prompting strategies to improve the performance of language models
+and provides insights into how each technique works."""
+
 # src/prompt_engineering.py
 
 def apply_technique(prompt, technique):

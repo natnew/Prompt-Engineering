@@ -1,3 +1,18 @@
+"""models.py - Model Selection and Text Completion Utilities for Streamlit App
+This module provides functions to interact with OpenAI's API, allowing users to select models and generate text completions.
+It includes functionality to ensure that the generated text ends with a complete sentence and handles rate limits gracefully
+by retrying requests. It provides utility functions for:
+1. Selecting and managing supported models.
+2. Making robust API calls to fetch completions with retries and adaptive prompts.
+3. Ensuring natural, complete, and polite text endings in generated outputs.
+
+Functions include:
+- `is_complete_sentence(text)`: Checks if the text ends with a complete sentence.
+- `ensure_complete_ending(text)`: Ensures the text has a complete ending, appending a polite closing statement if necessary.
+- `get_model_response(model, prompt, temperature=None, top_p=None, max_tokens=None)`: Fetches a response from the selected model, ensuring it is complete and handling rate limits.
+This module is designed to be used within a Streamlit application, providing a user-friendly interface for
+"""
+
 # src/models.py
 import openai
 import os
