@@ -24,13 +24,20 @@ import mimetypes
 from io import BytesIO  # To handle audio data
 from pydub import AudioSegment
 import tempfile
-import openai
+from openai import OpenAI
 import time
 
-# Security configuration
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Security configuration constants
 MAX_AUDIO_SIZE = 25 * 1024 * 1024  # 25MB limit for audio files
 MAX_PROMPT_LENGTH = 5000  # Maximum prompt length
 ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/m4a']
+
+# Audio processing constants
+WHISPER_MODEL = "whisper-1"
+AUDIO_RESPONSE_FORMAT = "text"
 
 # Set the page configuration
 st.set_page_config(
@@ -118,7 +125,7 @@ else:
 
 # Model selection
 selected_model = st.sidebar.selectbox("Select Model", list(MODELS.keys()))
-selected_model_engine = MODELS[selected_model]
+model_engine = MODELS[selected_model]
 
 ####
 # Parameters sliders for model customization with descriptions
@@ -178,7 +185,6 @@ selected_prompt = st.sidebar.selectbox("Select Prompt", prompts_data[selected_de
 
 # Technique selection
 selected_technique = st.sidebar.selectbox("Select Technique", list(techniques.keys()))
-technique_description = techniques[selected_technique]["description"]
 
 ####
 # Fetch the technique description and process steps
@@ -243,7 +249,44 @@ st.sidebar.markdown("---")
 
 # Security validation functions
 def validate_audio_file(audio_file):
-    """Validate audio file for security."""
+    """
+    Validate an uploaded audio file for security and processing requirements.
+    
+    This function performs comprehensive validation of audio files to ensure they
+    meet security requirements and are suitable for transcription processing.
+    It checks file size limits, detects empty files, and performs basic format validation.
+    
+    Args:
+        audio_file: A file-like object representing the uploaded audio file.
+                   Should support seek() and tell() operations for size checking.
+                   Can be None for cases where no file is provided.
+    
+    Returns:
+        tuple: A two-element tuple containing:
+            - is_valid (bool): True if file passes all validation checks, False otherwise
+            - message (str): Descriptive message explaining validation result or failure reason
+    
+    Validation Checks:
+        - File existence (not None)
+        - File size within MAX_AUDIO_SIZE limit (25MB)
+        - File is not empty (size > 0 bytes)
+        - Basic file type validation via Streamlit's built-in handlers
+    
+    Example:
+        >>> is_valid, msg = validate_audio_file(uploaded_file)
+        >>> if is_valid:
+        ...     process_audio(uploaded_file)
+        >>> else:
+        ...     st.error(f"Validation failed: {msg}")
+    
+    Side Effects:
+        - Modifies file pointer position (seeks to end and back to beginning)
+        - Does not close or modify the file content
+    
+    Note:
+        File size limit is configurable via MAX_AUDIO_SIZE constant.
+        Streamlit handles most MIME type validation automatically.
+    """
     if not audio_file:
         return False, "No audio file provided"
     
@@ -262,7 +305,43 @@ def validate_audio_file(audio_file):
     return True, "Valid"
 
 def validate_model_parameters(temperature, top_p, max_tokens):
-    """Validate model parameters are within safe ranges."""
+    """
+    Validate model parameters are within safe and acceptable ranges.
+    
+    This function ensures that user-provided model parameters fall within
+    the valid ranges expected by OpenAI's API to prevent errors and ensure
+    predictable behavior. It validates the three main generation parameters.
+    
+    Args:
+        temperature (float): Controls randomness in model output (0.0 to 1.0).
+                           Lower values = more deterministic, higher = more creative.
+        top_p (float): Controls nucleus sampling diversity (0.0 to 1.0).
+                      Lower values = more focused, higher = more diverse.
+        max_tokens (int): Maximum number of tokens to generate (1 to 1000).
+                         Controls response length and API costs.
+    
+    Returns:
+        tuple: A two-element tuple containing:
+            - is_valid (bool): True if all parameters are within valid ranges
+            - message (str): "Valid" if successful, or specific error message
+    
+    Validation Rules:
+        - temperature: Must be between 0.0 and 1.0 (inclusive)
+        - top_p: Must be between 0.0 and 1.0 (inclusive)  
+        - max_tokens: Must be between 1 and 1000 (inclusive)
+    
+    Example:
+        >>> is_valid, msg = validate_model_parameters(0.7, 1.0, 150)
+        >>> if is_valid:
+        ...     # Safe to use parameters
+        ...     make_api_call(temperature=0.7, top_p=1.0, max_tokens=150)
+        >>> else:
+        ...     st.error(f"Parameter error: {msg}")
+    
+    Note:
+        These ranges may be more restrictive than OpenAI's actual limits
+        but provide safe defaults for most use cases.
+    """
     if not (0.0 <= temperature <= 1.0):
         return False, "Temperature must be between 0.0 and 1.0"
     if not (0.0 <= top_p <= 1.0):
@@ -272,28 +351,76 @@ def validate_model_parameters(temperature, top_p, max_tokens):
     return True, "Valid"
 
 # Function to transcribe audio using OpenAI Whisper API
-# Function to transcribe audio using OpenAI Whisper API
 def audio_to_text(audio_file):
-    """Securely transcribe audio to text."""
+    """
+    Securely transcribe audio files to text using OpenAI's Whisper API.
+    
+    This function handles the complete audio transcription workflow including
+    validation, API calls, error handling, and automatic file chunking for
+    large files. It includes comprehensive security measures and sanitization
+    of transcribed content to prevent potential security issues.
+    
+    Args:
+        audio_file: A file-like object containing audio data. Should be a valid
+                   audio format supported by Whisper (mp3, wav, m4a, etc.).
+                   File will be validated before processing.
+    
+    Returns:
+        str: The transcribed text content, sanitized for security.
+             Returns descriptive error message if transcription fails.
+    
+    Features:
+        - Input validation and security checks
+        - Automatic file chunking for oversized files (>25MB)
+        - Comprehensive error handling with user-friendly messages
+        - Output sanitization to prevent prompt injection
+        - Support for multiple audio formats via Whisper API
+    
+    Error Handling:
+        - Validation errors: Returns validation failure message
+        - File too large: Automatically splits into chunks and processes
+        - API errors: Returns sanitized error message
+        - Processing errors: Returns generic error message (no sensitive data)
+    
+    Example:
+        >>> transcribed = audio_to_text(uploaded_audio)
+        >>> if not transcribed.startswith("Audio validation failed"):
+        ...     st.write(f"Transcription: {transcribed}")
+        >>> else:
+        ...     st.error(transcribed)
+    
+    Side Effects:
+        - Makes API calls to OpenAI Whisper service
+        - May create temporary files for chunking large audio
+        - Displays Streamlit warnings for chunking operations
+        - Modifies file pointer position during processing
+    
+    Security Notes:
+        - All transcribed content is sanitized via sanitize_user_input()
+        - File validation prevents oversized or malicious uploads
+        - Error messages are sanitized to prevent information disclosure
+        - Temporary files are automatically cleaned up after processing
+    """
     # Validate audio file first
     is_valid, validation_message = validate_audio_file(audio_file)
     if not is_valid:
         return f"Audio validation failed: {validation_message}"
     
     try:
-        # Transcribe the audio file
-        response = openai.Audio.transcribe(
-            model="whisper-1",
+        # Transcribe the audio file using new client syntax
+        response = client.audio.transcriptions.create(
+            model=WHISPER_MODEL,
             file=audio_file,
-            response_format="text"
+            response_format=AUDIO_RESPONSE_FORMAT
         )
         
         # Sanitize the transcribed text
         sanitized_response = sanitize_user_input(response)
         return sanitized_response
         
-    except openai.error.InvalidRequestError as e:
-        if "bytes" in str(e):
+    except Exception as transcription_error:
+        error_str = str(transcription_error)
+        if "bytes" in error_str or "file size" in error_str.lower():
             st.warning("File is too large. Breaking it into smaller chunks...")
             audio_file.seek(0)
             try:
@@ -309,11 +436,11 @@ def audio_to_text(audio_file):
                 with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as first_file:
                     first_half.export(first_file.name, format="mp3")
                     first_file.seek(0)
-                    with open(first_file.name, "rb") as f:
-                        first_response = openai.Audio.transcribe(
-                            model="whisper-1",
-                            file=f,
-                            response_format="text"
+                    with open(first_file.name, "rb") as audio_chunk:
+                        first_response = client.audio.transcriptions.create(
+                            model=WHISPER_MODEL,
+                            file=audio_chunk,
+                            response_format=AUDIO_RESPONSE_FORMAT
                         )
                         transcription_text += sanitize_user_input(first_response)
                 
@@ -321,11 +448,11 @@ def audio_to_text(audio_file):
                 with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as second_file:
                     second_half.export(second_file.name, format="mp3")
                     second_file.seek(0)
-                    with open(second_file.name, "rb") as f:
-                        second_response = openai.Audio.transcribe(
-                            model="whisper-1",
-                            file=f,
-                            response_format="text"
+                    with open(second_file.name, "rb") as audio_chunk:
+                        second_response = client.audio.transcriptions.create(
+                            model=WHISPER_MODEL,
+                            file=audio_chunk,
+                            response_format=AUDIO_RESPONSE_FORMAT
                         )
                         transcription_text += sanitize_user_input(second_response)
                 
@@ -334,7 +461,7 @@ def audio_to_text(audio_file):
                 return "An error occurred during audio processing. Please try a smaller file."
         else:
             return "An audio processing error occurred. Please try again with a different file."
-    except Exception as e:
+    except Exception as general_error:
         # Log the actual error for debugging but don't expose it to users
         return "An unexpected error occurred during transcription. Please try again."
 
@@ -521,7 +648,7 @@ if st.button("Generate Response"):
     
     # Validate model selection
     try:
-        validated_model = validate_model_selection(selected_model_engine)
+        validated_model = validate_model_selection(model_engine)
     except ValueError as e:
         st.error(f"Invalid model selection: {e}")
         st.stop()

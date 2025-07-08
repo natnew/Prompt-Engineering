@@ -24,7 +24,42 @@ and provides insights into how each technique works."""
 # src/prompt_engineering.py
 
 def apply_technique(prompt, technique):
-    """Applies the selected technique to the prompt and provides an explanation."""
+    """
+    Applies a specified prompt engineering technique to transform an input prompt.
+    
+    This function takes a user-provided prompt and applies one of several prompt
+    engineering techniques to enhance its effectiveness for language model interactions.
+    Each technique modifies the prompt structure or adds contextual elements to
+    improve the quality and relevance of model responses.
+    
+    Args:
+        prompt (str): The original prompt text to be transformed. Must be a non-empty
+                     string containing the user's query or instruction.
+        technique (str): The prompt engineering technique to apply. Valid options are:
+                        - "Zero-Shot": No modifications, uses prompt as-is
+                        - "Few-Shot": Adds examples before the prompt
+                        - "Chain-of-Thought": Adds step-by-step reasoning instruction
+                        - "Meta-Prompting": Transforms prompt into a prompt generation task
+                        - "Self-Consistency": Adds consistency validation instruction
+                        - "Tree-of-Thought": Encourages multiple approach exploration
+    
+    Returns:
+        tuple: A two-element tuple containing:
+            - transformed_prompt (str): The modified prompt with the technique applied
+            - explanation (str): A detailed explanation of how the technique works
+                               and why it's beneficial for improving model responses
+    
+    Example:
+        >>> prompt = "What is the capital of France?"
+        >>> technique = "Chain-of-Thought"
+        >>> transformed, explanation = apply_technique(prompt, technique)
+        >>> print(transformed)
+        "Let's think step-by-step.\nWhat is the capital of France?"
+    
+    Note:
+        If an invalid technique is provided, the original prompt is returned
+        unchanged with a default explanation message.
+    """
     explanation = ""
 
     if technique == "Zero-Shot":
