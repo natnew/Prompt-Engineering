@@ -532,6 +532,16 @@ with st.expander("When to prompt engineer"):
     - **Pre-populate responses**: Start with part of an answer to guide the model.
     - **Link complex prompts**: Break tasks into smaller steps to handle complexity.
 
+    ### Context Engineering & RAG Techniques (2024-2025)
+    Modern prompt engineering increasingly relies on context management and external knowledge integration:
+
+    - **Contextual Prompt Chaining**: Link multiple prompts with shared context to maintain coherence across complex tasks.
+    - **Dynamic Context Windows**: Adjust context based on query complexity and available token limits.
+    - **Retrieval-Augmented Generation (RAG)**: Combine external knowledge sources with prompts for accurate, up-to-date responses.
+    - **Multi-Modal Context**: Integrate text, images, and other data types for comprehensive understanding.
+    - **Context Compression**: Optimize token usage while preserving essential meaning and context.
+    - **Adaptive Context**: Real-time context modification based on user feedback and interaction patterns.
+
     ### Effective Prompting for O1 Models
     O1 models differ from GPT-4o or Claude 3.5 Sonnet, excelling in chain-of-thought reasoning without explicit guidance. Follow these practices for optimal results:
     
@@ -560,6 +570,36 @@ with st.expander("Additional Resources"):
     - [Chat with Hugging Face Zephyr 7b](https://huggingface.co/spaces/NatashaN/chatbot_retry_undo_like): Explore a modern chatbot interface with the Hugging Face Zephyr 7b model, which allows users to interact dynamically with individual chat messages.
     - [ArXiv CS RAG](https://huggingface.co/spaces/NatashaN/Arxiv-CS-RAG): Leverage the ArXiv CS Retrieval-Augmented Generator (RAG) to explore cutting-edge research in computer science.
     """, unsafe_allow_html=True)
+
+# Advanced Reasoning Techniques dropdown
+with st.expander("🧠 Advanced Reasoning & Control Techniques"):
+    st.markdown("""
+    ### Advanced Reasoning Patterns
+    Cutting-edge techniques for complex problem-solving and decision-making:
+
+    - **Program-Aided Language Models (PAL)**: Combine code generation with reasoning to solve mathematical and logical problems.
+    - **Reflection Prompting**: Enable self-correction and iterative improvement through explicit reflection steps.
+    - **Constitutional AI**: Generate value-aligned responses through principle-based prompting and self-correction.
+    - **Debate Prompting**: Use multiple perspectives and internal debate for complex decision-making processes.
+    - **Analogical Reasoning**: Leverage analogies and metaphors for better problem understanding and explanation.
+    - **Metacognitive Prompting**: Explicitly prompt the model to think about its own thinking process.
+
+    ### Control & Optimization Techniques
+    Advanced methods for fine-tuning model behavior and output quality:
+
+    - **Temperature Scheduling**: Dynamic temperature adjustment during generation for optimal creativity vs. accuracy balance.
+    - **Prompt Optimization via Gradient Descent**: Automated prompt improvement using optimization algorithms.
+    - **Multi-Agent Prompting**: Coordinate multiple AI agents with different roles for complex task completion.
+    - **Prompt Ensembles**: Combine multiple prompt variations for increased robustness and reliability.
+    - **Adaptive Prompting**: Real-time prompt modification based on feedback and performance metrics.
+    - **Constraint-Based Prompting**: Use explicit constraints to guide model behavior within specific boundaries.
+
+    ### Implementation Tips
+    - **Start Simple**: Begin with basic techniques before implementing advanced patterns.
+    - **Measure Impact**: Track performance improvements when adding complexity.
+    - **Context Awareness**: Consider computational costs and token limits when implementing these techniques.
+    - **Iterative Refinement**: Continuously refine prompts based on output quality and user feedback.
+    """)
 
 
 st.subheader("Selected Prompt")
