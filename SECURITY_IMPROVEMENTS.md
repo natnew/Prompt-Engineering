@@ -7,7 +7,9 @@ This document outlines the comprehensive security improvements implemented to pr
 **Files Modified:** `src/models.py`, `src/app.py`  
 **Commits:** 
 - Security: Implement comprehensive prompt injection protection and input sanitization
-- Security: Enhance Streamlit app security with input validation and error handling
+- Security: Implement comprehensive security measures in Streamlit app
+- docs: Add comprehensive security improvements documentation
+- docs: Update security documentation with app.py improvements
 
 ---
 
