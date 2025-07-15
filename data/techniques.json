@@ -56,46 +56,6 @@
             "Then, we will **send the modified prompt to the model**.",
             "Finally, the model will **provide an optimized response after exploring different options**."
         ]
-    },
-    "Context Engineering": {
-        "description": "Context Engineering involves strategically managing and optimizing the context window to improve model performance. This includes techniques like context compression, dynamic context adjustment, and contextual prompt chaining to maintain coherence across complex tasks.",
-        "process": [
-            "We are now going to apply **Context Engineering** to your prompt.",
-            "First, we will **analyze the context requirements for your task**.",
-            "Next, we will **optimize the context structure and format**.",
-            "Then, we will **apply context compression or expansion as needed**.",
-            "Finally, the model will **generate a response using the optimized context**."
-        ]
-    },
-    "RAG Prompting": {
-        "description": "Retrieval-Augmented Generation (RAG) Prompting combines external knowledge sources with the model's internal knowledge. This technique retrieves relevant information from databases or documents and incorporates it into the prompt for more accurate and up-to-date responses.",
-        "process": [
-            "We are now going to apply **RAG Prompting** to your prompt.",
-            "First, we will **identify relevant external knowledge sources**.",
-            "Next, we will **retrieve pertinent information related to your query**.",
-            "Then, we will **integrate the retrieved information with your prompt**.",
-            "Finally, the model will **generate a response informed by both internal and external knowledge**."
-        ]
-    },
-    "Reflection Prompting": {
-        "description": "Reflection Prompting enables the model to engage in self-correction and iterative improvement. The model is explicitly prompted to reflect on its own reasoning, identify potential errors, and refine its responses through multiple passes.",
-        "process": [
-            "We are now going to apply **Reflection Prompting** to your prompt.",
-            "First, we will **generate an initial response to your prompt**.",
-            "Next, we will **prompt the model to reflect on and critique its response**.",
-            "Then, we will **ask the model to identify improvements or corrections**.",
-            "Finally, the model will **provide a refined response based on its reflection**."
-        ]
-    },
-    "Constitutional AI": {
-        "description": "Constitutional AI prompting generates value-aligned responses through principle-based reasoning. The model is given a set of principles or constitution to follow, enabling it to self-correct and align its outputs with specified values and guidelines.",
-        "process": [
-            "We are now going to apply **Constitutional AI** prompting to your prompt.",
-            "First, we will **establish the constitutional principles to follow**.",
-            "Next, we will **generate an initial response to your prompt**.",
-            "Then, we will **evaluate the response against the constitutional principles**.",
-            "Finally, the model will **provide a revised response that aligns with the specified values**."
-        ]
     }
 }
 
