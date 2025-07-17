@@ -366,9 +366,7 @@ except FileNotFoundError as e:
 
 ### Machine Learning Module (src/machine_learning.py)
 
-Provides specialized ML-focused implementations of prompt engineering techniques.
-
-⚠️ **Note**: This module uses the deprecated `openai.Completion.create()` API and should be updated to use `openai.ChatCompletion.create()` for production use.
+Provides specialized ML-focused implementations of prompt engineering techniques using the current OpenAI Chat Completions API.
 
 #### Functions
 

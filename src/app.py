@@ -18,6 +18,9 @@ import streamlit as st
 from prompt_engineering import apply_technique
 from models import get_model_response, MODELS, sanitize_user_input, validate_model_selection
 from utils import load_techniques, load_prompts
+from error_handlers import display_error_to_user
+from exceptions import APIError, ValidationError, ModelError, PromptInjectionError
+from logging_config import setup_logging, logger
 import os
 import mimetypes
 #import speech_recognition as sr  # For speech-to-text
@@ -26,6 +29,9 @@ from pydub import AudioSegment
 import tempfile
 from openai import OpenAI
 import time
+
+# Initialize logging
+setup_logging()
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -686,27 +692,56 @@ if st.button("Generate Response"):
         st.error(f"Invalid parameters: {param_message}")
         st.stop()
     
-    # Validate model selection
+    # Validate model selection with new error handling
     try:
         validated_model = validate_model_selection(model_engine)
-    except ValueError as e:
-        st.error(f"Invalid model selection: {e}")
+        logger.info(f"Model validated: {validated_model}")
+    except (ValidationError, ModelError) as e:
+        display_error_to_user(e, "Invalid model selection")
         st.stop()
     
     st.subheader("Model Response")
 
-    # Generate response with validated inputs
-    response = get_model_response(
-        validated_model,
-        formatted_prompt,
-        temperature=temperature,
-        top_p=top_p,
-        max_tokens=max_tokens
-    )
-    
-    if response:
+    # Generate response with comprehensive error handling
+    try:
+        response = get_model_response(
+            validated_model,
+            formatted_prompt,
+            temperature=temperature,
+            top_p=top_p,
+            max_tokens=max_tokens
+        )
+        
+        # Display successful response
         st.write(response)
-    else:
-        st.error("Failed to generate response. Please try again.")
+        logger.info(
+            "Response generated successfully",
+            extra={
+                'model': validated_model,
+                'response_length': len(response),
+                'technique': selected_technique if 'selected_technique' in locals() else 'direct'
+            }
+        )
+        
+    except PromptInjectionError as e:
+        display_error_to_user(e, "Security Alert")
+        logger.warning(f"Prompt injection attempt blocked: {e}")
+        
+    except ValidationError as e:
+        display_error_to_user(e, "Input Validation Error")
+        
+    except APIError as e:
+        display_error_to_user(e, "API Error")
+        
+    except ModelError as e:
+        display_error_to_user(e, "Model Error")
+        
+    except Exception as e:
+        # Catch-all for unexpected errors
+        display_error_to_user(
+            APIError(f"Unexpected error: {str(e)}", api_name="Application"),
+            "Unexpected Error"
+        )
+        logger.error(f"Unexpected error in main app: {str(e)}", exc_info=True)
 
 

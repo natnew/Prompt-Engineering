@@ -1,0 +1,173 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: Create virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          echo "VIRTUAL_ENV=$(pwd)/venv" >> $GITHUB_ENV
+          echo "$(pwd)/venv/bin" >> $GITHUB_PATH
+          
+      - name: Upgrade pip and install build tools
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          
+      - name: Install development dependencies
+        run: |
+          pip install pytest pytest-cov black flake8 mypy streamlit-testing
+          pip install pre-commit safety bandit
+          
+      - name: Set up environment variables
+        run: |
+          echo "OPENAI_API_KEY=sk-test-key-placeholder" >> $GITHUB_ENV
+          echo "STREAMLIT_SERVER_PORT=8501" >> $GITHUB_ENV
+          echo "STREAMLIT_SERVER_ADDRESS=localhost" >> $GITHUB_ENV
+          
+      - name: Verify Streamlit installation
+        run: |
+          streamlit --version
+          python -c "import streamlit as st; print('Streamlit imported successfully')"
+          
+      - name: Verify OpenAI client setup
+        run: |
+          python -c "from openai import OpenAI; print('OpenAI client imported successfully')"
+          
+      - name: Verify audio processing dependencies
+        run: |
+          python -c "from pydub import AudioSegment; print('Audio processing ready')"
+          python -c "import numpy as np; print('NumPy ready for data processing')"
+          
+      - name: Test configuration loading
+        run: |
+          python -c "
+          import json
+          import os
+          if os.path.exists('data/techniques.json'):
+              with open('data/techniques.json', 'r') as f:
+                  techniques = json.load(f)
+              print(f'Loaded {len(techniques)} prompt engineering techniques')
+          else:
+              print('Warning: techniques.json not found')
+          "
+          
+      - name: Validate project structure
+        run: |
+          echo "Checking project structure..."
+          test -d src && echo "✓ src/ directory exists"
+          test -f src/app.py && echo "✓ Main Streamlit app found"
+          test -f src/models.py && echo "✓ Models module found"
+          test -f src/prompt_engineering.py && echo "✓ Prompt engineering module found"
+          test -f src/utils.py && echo "✓ Utils module found"
+          test -d data && echo "✓ data/ directory exists"
+          test -f data/techniques.json && echo "✓ Techniques configuration found"
+          test -d pages && echo "✓ pages/ directory exists"
+          test -f API_DOCUMENTATION.md && echo "✓ API documentation found"
+          
+      - name: Run syntax checks
+        run: |
+          echo "Running Python syntax validation..."
+          python -m py_compile src/*.py
+          python -m py_compile pages/*.py
+          echo "✓ All Python files compile successfully"
+          
+      - name: Test import statements
+        run: |
+          echo "Testing core module imports..."
+          cd src
+          python -c "from app import *; print('✓ App module imports successful')" || echo "⚠ App module import issues"
+          python -c "from models import MODELS, get_model_response; print('✓ Models module imports successful')" || echo "⚠ Models module import issues"
+          python -c "from prompt_engineering import apply_technique; print('✓ Prompt engineering module imports successful')" || echo "⚠ Prompt engineering module import issues"
+          python -c "from utils import load_techniques, load_prompts; print('✓ Utils module imports successful')" || echo "⚠ Utils module import issues"
+          
+      - name: Validate JSON configuration files
+        run: |
+          echo "Validating JSON configuration files..."
+          python -c "
+          import json
+          import sys
+          
+          files_to_check = [
+              'data/techniques.json',
+              'data/departments_prompts.json',
+              'data/ethical_guidelines.json'
+          ]
+          
+          for file_path in files_to_check:
+              try:
+                  with open(file_path, 'r') as f:
+                      data = json.load(f)
+                  print(f'✓ {file_path} is valid JSON')
+              except FileNotFoundError:
+                  print(f'⚠ {file_path} not found')
+              except json.JSONDecodeError as e:
+                  print(f'✗ {file_path} has JSON syntax error: {e}')
+                  sys.exit(1)
+          "
+          
+      - name: Security and code quality checks
+        run: |
+          echo "Running security and quality checks..."
+          # Check for common security issues
+          bandit -r src/ -f json || echo "⚠ Bandit security scan completed with warnings"
+          
+          # Check for dependency vulnerabilities
+          safety check || echo "⚠ Safety check completed with warnings"
+          
+          # Basic code style check
+          flake8 src/ --max-line-length=100 --ignore=E203,W503 || echo "⚠ Flake8 style check completed with warnings"
+          
+      - name: Test Streamlit app startup (dry run)
+        run: |
+          echo "Testing Streamlit app startup..."
+          timeout 30s streamlit run src/app.py --server.headless true --server.port 8501 &
+          STREAMLIT_PID=$!
+          sleep 10
+          
+          # Check if Streamlit is running
+          if ps -p $STREAMLIT_PID > /dev/null; then
+            echo "✓ Streamlit app started successfully"
+            kill $STREAMLIT_PID
+          else
+            echo "✗ Streamlit app failed to start"
+            exit 1
+          fi
+          
+      - name: Setup summary
+        run: |
+          echo "🎉 Copilot Setup Steps Completed Successfully!"
+          echo ""
+          echo "Environment Details:"
+          echo "==================="
+          echo "Python Version: $(python --version)"
+          echo "Pip Version: $(pip --version)"
+          echo "Streamlit Version: $(streamlit --version)"
+          echo "Virtual Environment: $VIRTUAL_ENV"
+          echo ""
+          echo "Next Steps for Development:"
+          echo "=========================="
+          echo "1. Set your actual OPENAI_API_KEY in environment variables"
+          echo "2. Run: streamlit run src/app.py"
+          echo "3. Open browser to: http://localhost:8501"
+          echo "4. Start coding with GitHub Copilot guidance from .github/copilot-instructions.md"
+          echo ""
+          echo "Ready for Prompt Engineering Tool development! 🚀"
