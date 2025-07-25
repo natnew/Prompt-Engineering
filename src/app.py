@@ -20,7 +20,7 @@ from models import get_model_response, MODELS, sanitize_user_input, validate_mod
 from utils import load_techniques, load_prompts
 from error_handlers import display_error_to_user
 from exceptions import APIError, ValidationError, ModelError, PromptInjectionError
-from logging_config import setup_logging, logger
+from logging_config import setup_logging, get_logger
 import os
 import mimetypes
 #import speech_recognition as sr  # For speech-to-text
@@ -32,6 +32,7 @@ import time
 
 # Initialize logging
 setup_logging()
+logger = get_logger(__name__)
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
